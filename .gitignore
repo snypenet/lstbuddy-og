@@ -1,0 +1,20 @@
+*/obj/*
+*/bin/*
+packages/*
+Lists.WindowsApplication/Lists.WindowsApplication/bin/Release/Lists.WindowsApplication.application
+Lists.WindowsApplication/Lists.WindowsApplication/bin/Release/Lists.WindowsApplication.exe.manifest
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Release/Lists.WindowsApplication.application
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Release/Lists.WindowsApplication.exe.manifest
+Lists.WindowsApplication/Lists.WindowsApplication/bin/Debug/Lists.WindowsApplication.application
+Lists.WindowsApplication/Lists.WindowsApplication/bin/Debug/Lists.WindowsApplication.exe.manifest
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Debug/Lists.WindowsApplication.application
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Debug/Lists.WindowsApplication.exe.manifest
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Release/build.force
+Lists.WindowsApplication/Lists.WindowsApplication/obj/Debug/build.force
+/.vs/Lists/config/applicationhost.config
+/Lists/.vs
+/.vs/Lists
+/Lists.WindowsApplication/Lists.WindowsApplication/.vs
+/Lists.WindowsApplication/Lists.WindowsApplication/bin
+/Lists.WindowsApplication/Lists.WindowsApplication/obj
+/Lists.WindowsApplication/Lists.WindowsApplication/Program Files (x86)
