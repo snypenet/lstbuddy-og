@@ -1,0 +1,68 @@
+﻿@model Lists.Models.Data.ListItemContainer
+<div class="defaultText prosAndConsResult">
+    @{
+        var cons = Model.Filter(item => item.ProConType == Lists.Models.Data.ProOrCon.Con);
+        var pros = Model.Filter(item => item.ProConType == Lists.Models.Data.ProOrCon.Pro);
+        int sum = pros.Items.Sum(item => item.Amount) + cons.Items.Sum(item => item.Amount);
+    }
+    <span class="@(sum > 0 ? "icon-smiley" : sum < 0 ? "icon-sad" : "icon-confused") proConResultIcon"></span>
+</div>
+<div class="proConWrapper">
+    <div class="left prosAndConsListItems">
+        <div class="pageTitle defaultText">
+            Con
+        </div>
+        <br />
+        <div  id="prosAndConsListItemsLeft">
+            @Html.Partial("_ProsAndConsListItemsColumn", cons)
+        </div>
+    </div>
+    <div class="right prosAndConsListItems">
+        <div class="pageTitle defaultText">
+            Pro
+        </div>
+        <br />
+        <div id="prosAndConsListItemsRight" >
+            @Html.Partial("_ProsAndConsListItemsColumn", pros)
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".icon-remove").click(function () {
+            showLoader();
+            $(this).closest(".listItem").addClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").removeClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+                });
+
+        $(".item-action-undelete").click(function () {
+            showLoader();
+            $(this).closest(".listItem").removeClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").addClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UnDeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+    });
+    
+    function handleEditOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            revertToViewColumns();
+            $("#prosAndConsListItems").html(data);
+        } else {
+            $("#listItemAdd").html(data);
+        }
+    }
+</script>

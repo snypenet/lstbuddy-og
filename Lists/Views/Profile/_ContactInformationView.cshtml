@@ -1,0 +1,22 @@
+﻿@model Lists.Models.View.ExistingContactInformation
+<div class="defaultText">Contaction Information:</div>
+<br />
+<div class="dataViewWrapper">
+    <table class="dataView">
+        <tr class="dataViewRow">
+            <td class="dataLabel">Email:</td>
+            <td class="dataValue">@Model.Email</td>
+        </tr>
+        <tr class="dataViewRow">
+            <td class="dataLabel">Cell Phone #:</td>
+            <td class="dataValue">@Model.CellPhoneNumber</td>
+        </tr>
+        <tr class="dataViewRow">
+            <td class="dataLabel">Cell Phone Provider:</td>
+            <td class="dataValue">@(Model.CellPhoneProvider == null || Model.CellPhoneProvider.Id == 0 ? "None" : Model.CellPhoneProvider.Name)</td>
+        </tr>
+    </table>
+</div>
+<br />
+<br />
+<button class="button" onclick="edit('contactInfo')">Edit</button>

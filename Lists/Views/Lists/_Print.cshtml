@@ -1,0 +1,22 @@
+﻿@model Lists.Models.Data.List
+
+<div class="listTitle">@Model.Name</div>
+<div class="listOwner">Owner: @string.Format("{0} {1}", Model.Owner.FirstName, Model.Owner.LastName)</div>
+@if (Model.ExpiresOn.HasValue)
+{
+    <div class="listExpiration">Expires: @Model.ExpiresOn.Value.ToShortDateString()</div>
+}
+
+<div>
+    <ul>
+    @foreach (var item in Model.Items.Items)
+    {
+        <li>@item.Text</li>
+    }
+    </ul>
+</div>
+<script type="text/javascript">
+    window.print();
+</script>
+
+

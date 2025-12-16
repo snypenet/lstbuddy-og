@@ -1,0 +1,41 @@
+﻿@model Lists.Models.View.NewPerson
+@using (Ajax.BeginForm("Save", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleOnSuccess"
+}))
+{
+    @Html.ValidationSummary()<br />
+    @Html.TextBoxFor(x => x.FirstName, new { @class = "text", placeholder = "First Name" })<br />
+    @Html.TextBoxFor(x => x.MiddleName, new { @class = "text", placeholder = "Middle Name" })<br />
+    @Html.TextBoxFor(x => x.LastName, new { @class = "text", placeholder = "Last Name" })<br />
+    @Html.TextBoxFor(x => x.CellPhoneNumber, new { @class = "text", type="number", placeholder = "Cell Phone Number" })<br />
+    @Html.DropDownListFor(x => x.CellPhoneProvider, ViewBag.CellPhoneProviders as SelectList, "Cell Phone Providers", new { @class = "dropdown" })<br />
+    @Html.TextBoxFor(x => x.Email, new { @class = "text", placeholder = "E-Mail" })<br />
+    @Html.TextBoxFor(x => x.Username, new { @class = "text", placeholder = "Username" })<br />
+    <img class="refreshicon" src="@Url.Content("~/Images/refresh.png")" onclick="resetGrid()" />
+    <br />
+    <div id="mainGridAuth" class="gridAuth"></div>
+    @Html.HiddenFor(x => x.Pattern)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Register</button>
+        <button type="button" class="button clearButton" onclick="clearForm(this)">Clear</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        authGrid.createGrid({
+            gridContainer: $("#mainGridAuth"),
+            patternContainer: $("#Pattern")
+        });
+
+        if ("@Model.Pattern".length > 0) {
+            authGrid.setPattern("@Model.Pattern");
+        }
+    });
+
+    function resetGrid() { 
+        authGrid.reset();
+    }
+</script>

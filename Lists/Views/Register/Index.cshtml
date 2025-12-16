@@ -1,0 +1,17 @@
+﻿@model Lists.Models.View.NewPerson
+@{
+    ViewBag.Title = "Register - Lst Buddy";
+}
+@Html.Partial("_GoogleAnalytics")
+<div class="pageTitle defaultText">Sign Up Now</div>
+<div id="registerPage">@Html.Partial("_Index", Model)</div>
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        if (PostSuccess(jqXHR)) {
+            window.location.href = unescape(data);
+        } else {
+            hideLoader();
+            $("#registerPage").html(data);
+        }
+    }
+</script>

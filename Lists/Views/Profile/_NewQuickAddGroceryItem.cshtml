@@ -1,0 +1,13 @@
+﻿@model Lists.Models.View.NewQuickAddGroceryItem
+@using (Ajax.BeginForm("AddNewQuickAddItem", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleAddQuickAddItemOnSuccess"
+}))
+{
+    @Html.ValidationSummary()<br />
+    @Html.TextBoxFor(x => x.ItemName, new { @class = "text", placeholder = "Add New Item" })<br />
+    <br />
+}
+<script type="text/javascript">
+</script>

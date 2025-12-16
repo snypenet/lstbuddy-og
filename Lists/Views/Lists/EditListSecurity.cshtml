@@ -1,0 +1,31 @@
+﻿@model Lists.Models.Data.ListSecurityContainer
+@{
+    ViewBag.Title = "List Security - Lst Buddy";
+}
+
+<br />
+<div class="pageTitle defaultText">List Security</div>
+<br />
+<div id="listSecurityItems">
+    @Html.Partial("_EditListSecurity", Model)
+</div>
+<script type="text/javascript">
+
+    function handleEditExistingOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#listSecurityItems").html(data);
+        } else {
+            $(".editListSecurity").html(data);
+        }
+    }
+
+    function handleEditRequestOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#listSecurityItems").html(data);
+        } else {
+            $(".editListSecurity").html(data);
+        }
+    }
+</script>

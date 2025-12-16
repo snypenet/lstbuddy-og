@@ -1,0 +1,38 @@
+﻿@model Lists.Models.View.Credentials
+@{
+    ViewBag.Title = "Logon - Lst Buddy";
+    var user = ViewBag.CurrentUser as Lists.Models.Data.Person;
+}
+@Html.Partial("_GoogleAnalytics")
+<div class="siteTitle" id="mainTitle">
+    Lst Buddy
+</div>
+@if (user == null || user.Id == 0 || user.IsGuest)
+{
+    <div id="loginPage">@Html.Partial("_Index", Model)</div>
+}
+else
+{
+    <br />
+    <div class="defaultText">
+        <div class="centerText">
+            Are you <span>@user.FirstName @user.LastName</span>?
+        </div>
+        <br /><br />
+        <div class="buttons">
+            <button class="button" onclick="window.location.href='@Url.Action("Index", "Lists")'">Yes</button>
+            <button class="button" onclick="window.location.href='@Url.Action("Logout", "Logon")'">No</button>
+        </div>
+        <br />
+    </div>
+}
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        if (PostSuccess(jqXHR)) {
+            window.location.href = data ? data : "@Url.Action("Index", "Lists")";
+        } else {
+            $("#loginPage").html(data);
+            hideLoader();
+        }
+    }
+</script>

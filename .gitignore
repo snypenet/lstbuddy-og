@@ -18,3 +18,5 @@ Lists.WindowsApplication/Lists.WindowsApplication/obj/Debug/build.force
 /Lists.WindowsApplication/Lists.WindowsApplication/bin
 /Lists.WindowsApplication/Lists.WindowsApplication/obj
 /Lists.WindowsApplication/Lists.WindowsApplication/Program Files (x86)
+config.bat
+node_modules

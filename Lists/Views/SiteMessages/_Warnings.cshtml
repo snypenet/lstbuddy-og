@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Lists.Models.Data.SiteMessage>
+
+<div class="warningSiteMessageGroup">
+    <span class="icon-notification"></span>
+    <strong>Warnings</strong>
+    @if (Model != null && Model.Any())
+    {
+        foreach(var message in Model)
+        {
+            <div class="siteMessage">
+                @message.Text
+            </div>
+        }
+    }
+    else
+    {
+        <div class="defaultText">
+            No warning notifications exist :(
+        </div>
+    }
+</div>

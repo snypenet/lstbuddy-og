@@ -1,0 +1,19 @@
+﻿@model Lists.Models.View.NewListSecurity
+@{
+    ViewBag.Title = "Request List Access";
+}
+<br />
+<div class="pageTitle defaultText">Request List Access</div>
+<div id="requestListSecurity">
+    @Html.Partial("_RequestListAccess", Model)
+</div>
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            window.location.href = data;
+        } else {
+            $("#requestListSecurity").html(data);
+        }
+    }
+</script>
