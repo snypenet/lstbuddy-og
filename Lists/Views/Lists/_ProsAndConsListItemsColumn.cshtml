@@ -1,0 +1,149 @@
+﻿@model Lists.Models.Data.ListItemContainer
+@{
+    var list = new Lists.Models.Data.List(Model.ListId);
+    var user = (Lists.Models.Data.Person)ViewBag.CurrentUser;
+}
+@if (Model != null && Model.Items.Any())
+{
+    <div class="error"></div>
+    foreach (var item in Model.Items.OrderBy(x => x.CreatedOn))
+    {
+        <div class="listItem" data-item-id="@item.Id">
+            <div class="listItemContent">
+                @item.Text
+                @if(item.Url != null)
+                {
+                    <br />
+                    <a href="@Html.Raw(item.Url)" target="_blank">More Information</a>
+                }
+            </div>
+            <div class="listNameTags">
+                @(item.Weight.Value == Lists.Models.Data.ProConWeight.Important ? 
+                    "*Important" :
+                    item.Weight.Value == Lists.Models.Data.ProConWeight.MoreImportmant ?
+                    "*More Important" :
+                    "*Very Important")
+            </div>
+            <br />
+            <div class="listItemInfo">
+                @if((user.Id == list.Owner.Id ||
+                list.Editors.Contains(user.Id)) && !list.IsExpired && !user.IsGuest)
+                {
+                    <span class="listItemShortcutAction @(item.ProConType.Value == Lists.Models.Data.ProOrCon.Con ? "icon-arrow-right textLeft" : "icon-arrow-left textRight")"></span>
+                    <span class="listItemAction icon-remove"></span>
+                    <span class="listItemAction icon-pencil" onclick="editItem(this)"></span>
+                    <span class="listItemAction item-action-undelete hidden">Undo</span>
+                }
+                <span class="listItemAction icon-bubble" onclick="loadComments(this)"></span><span class="commentCount actionCount">@item.Comments.Comments.Count</span>
+            </div>
+            <br />
+        </div>
+    }
+}
+
+<br />
+<script type="text/javascript">
+    $(function () {
+        $(".icon-arrow-right").click(function () {
+            revertToViewColumns();
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SendRight", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    if (PostSuccess(jqXHR)) {
+                        $("#prosAndConsListItems").html(data);
+                    }
+                }
+            });
+        });
+
+        $(".icon-arrow-left").click(function () {
+            revertToViewColumns();
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SendLeft", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    if (PostSuccess(jqXHR)) {
+                        $("#prosAndConsListItems").html(data);
+                    }
+                }
+            });
+        });
+    });
+
+    function loadComments(context) {
+        showLoader();
+        $(".listItemCommentsContainer").remove();
+        var $listItem = $(context).closest(".listItem");
+        $listItem.append($("<div></div>").addClass("listItemCommentsContainer")
+                                       .attr("data-comment-item-id", $listItem.attr("data-item-id"))
+                                       .load("@Url.Action("ListItem", "Comments", new { listItem = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $listItem.attr("data-item-id")), function () {
+                                           $(context).attr("onclick", "unloadComments(this)");
+                                           hideLoader();
+                                       }));
+        extendColumn(context);
+    }
+
+    function unloadComments(context) {
+        showLoader();
+        $(".listItemCommentsContainer").remove();
+        $(context).attr("onclick", "loadComments(this)");
+        revertToViewColumns();
+        hideLoader();
+    }
+
+    function editItem(context) {
+        $(".editListItem").remove();
+        extendColumn(context);
+        $(context).closest(".listItem")
+               .append($("<div></div>").addClass("editListItem")
+                                  .attr("id", "listItemEdit")
+                                  .load("@Html.Raw(Url.Action("Edit", "Lists", new { id = "LIST_ITEM_ID", type = Lists.Models.Data.ListItemType.ProsAndCons }))".replace("LIST_ITEM_ID", $(context).closest(".listItem").attr("data-item-id"))));
+
+    }
+    function showMoreComments(context) {
+        showLoader();
+        var $listItem = $(context).closest(".listItem");
+        $listItem.find(".listItemCommentsContainer")
+                 .load("@Url.Action("ListItem", "Comments", new { listItem = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(context).attr("data-id")), function () {
+                     hideLoader();
+                 });
+    }
+
+    function showLessComments(context) {
+        showLoader();
+        var $listItem = $(context).closest(".listItem");
+        $listItem.find(".listItemCommentsContainer")
+                 .load("@Url.Action("PartialListItem", "Comments", new { listItem = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(context).attr("data-id")), function () {
+                     hideLoader();
+                 });
+    }
+
+    function handleAddCommentsOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        var itemid = jqXHR.getResponseHeader("ListItemId");
+        if (PostSuccess(jqXHR)) {
+            $("[data-comment-item-id=" + itemid + "]").html(data).promise().done(function () {
+                $("[data-comment-item-id=" + itemid + "] .NewComment form").find("#CommentText").val("");
+                var $checkbox = $("[data-comment-item-id=" + itemid + "] .NewComment form").find("#IsWhisper");
+                if ($checkbox.is(":checked")) {
+                    $checkbox.click();
+                }
+            });
+        } else {
+            $("[data-comment-item-id=" + itemid + "] .NewComment").html(data);
+        }
+    }
+
+    function deleteComment(id, isPartial, listItemId) {
+        showLoader();
+        $("[data-comment-item-id=" + listItemId + "]")
+                 .load("@Html.Raw(Url.Action("DeleteComment", "Comments", new { id = "COMMENT_ID", partial = "IS_PARTIAL" }))".replace("COMMENT_ID", id).replace("IS_PARTIAL", isPartial), function () {
+                     hideLoader();
+                 });
+    }
+</script>

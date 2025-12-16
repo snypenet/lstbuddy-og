@@ -1,0 +1,45 @@
+﻿@model Lists.Models.View.EditListSecurity
+
+@using (Ajax.BeginForm("SaveExistingListSecurity", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleEditExistingOnSuccess"
+}))
+{
+    @Html.ValidationSummary()<br />
+    <div class="sectionLabel">Access Type</div>
+    <br /><br />
+    <table class="control">
+        <tr>
+            <td class="controlLabel">Edit</td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ListSecurityType.Edit)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+        <tr>
+            <td class="controlLabel">View</td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ListSecurityType.View)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+    </table>
+    @Html.HiddenFor(x => x.AccessType)
+    @Html.HiddenFor(x => x.PersonId)
+    @Html.HiddenFor(x => x.ListId)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Save</button>
+        <button type="button" class="button clearButton" onclick="clearForm(this)">Clear</button>
+        <button type="button" class="button cancelButton">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $(".cancelButton").click(function () {
+            $(".editListSecurity").remove();
+        });
+        $(".radio").click(function () {
+            $(".radio").removeClass("icon-radio-checked").addClass("icon-radio-unchecked");
+            $(this).addClass("icon-radio-checked").removeClass("icon-radio-unchecked");
+            $("#AccessType").val($(this).attr("data-value"));
+        });
+
+        $(".radio[data-value=" + "@((int)Model.AccessType)" + "]").click();
+    });
+</script>

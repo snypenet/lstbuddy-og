@@ -1,0 +1,44 @@
+﻿@model Lists.Models.Data.ListContainer
+@{
+    ViewBag.Title = "Lists - Lst Buddy";
+}
+
+@Html.Partial("_GoogleAnalytics")
+<br />
+<div class="pageTitle defaultText">Your Lists</div>
+<br />
+<div class="searchContainer">
+    <input type="text" placeholder="Search Lists" id="listQuery" class="text" /> 
+    <button class="button" id="searchLists" type="button">Search</button>
+</div>
+<div id="listNames">
+    @Html.Partial("_ListNames", Model)
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#searchLists").click(function () {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                data:{
+                    query: $("#listQuery").val()
+                },
+                url: "@Url.Action("SearchLists", "Lists")",
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    $("#listNames").html(data);
+                },
+                error: function () {
+                    hideLoader();
+                }
+            });
+        })
+        $("#listQuery").keyup(function (e) {
+            if ((e.keyCode ? e.keyCode : e.which) == 13) {
+                $("#searchLists").click();
+            }
+        });
+
+
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@model Lists.Models.View.EditBirthdayListItem
+<br />
+<div class="sectionLabel">Edit List item</div>
+@using (Ajax.BeginForm("SaveBirthdayItem", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleEditOnSuccess"
+}))
+{
+    @Html.ValidationSummary()
+    @Html.TextAreaFor(x => x.Text, new { placeholder = "Item Text" })<br />
+    @Html.TextBoxFor(x => x.Url, new { placeholder = "URL" })
+    @Html.HiddenFor(x => x.Id)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Save</button>
+        <button type="button" id="cancelButton" class="button">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#cancelButton").click(function () {
+            $(this).closest(".editListItem").remove();
+        });
+    });
+</script>

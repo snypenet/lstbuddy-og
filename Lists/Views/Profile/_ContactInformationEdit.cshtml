@@ -1,0 +1,29 @@
+﻿@model Lists.Models.View.EditContactInformation
+<br />
+<div class="sectionLabel">Edit Contact Information</div>
+@using (Ajax.BeginForm("SaveContactInformation", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleContactInfoEditOnSuccess"
+}))
+{
+    @Html.ValidationSummary()
+    @Html.TextBoxFor(x => x.Email, new { placeholder = "Email", @class="text" })<br />
+    @Html.TextBoxFor(x => x.CellPhoneNumber, new { placeholder = "Cell Phone Number", @class="text" })<br />
+    @Html.DropDownListFor(x => x.CellPhoneProvider, ViewBag.CellPhoneProviders as SelectList, "Cell Phone Providers", new { @class = "dropdown" })<br />
+    <br />
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Save</button>
+        <button type="button" onclick="clearForm(this)" class="button">Clear</button>
+        <button type="button" class="button cancelButton">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $(".cancelButton").click(function () {
+            $("#contactInformation").load("@Html.Raw(Url.Action("LoadView", "Profile", new { type = "contactInfo" }))");
+        });
+    });
+
+</script>

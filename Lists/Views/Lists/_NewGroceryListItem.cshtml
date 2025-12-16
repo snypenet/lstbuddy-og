@@ -1,0 +1,51 @@
+﻿@model Lists.Models.View.NewGroceryListItem
+@using (Ajax.BeginForm("AddGroceryItem", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleOnSuccess"
+}))
+{
+    @Html.ValidationSummary()
+    @Html.DropDownList("QuickAdd", Model.QuickAdd.Select(item => new SelectListItem { Text = item, Value = item }), "Quick Add", new { id = "QuickAdd" })
+    <br /><br />
+    @Html.TextBoxFor(x => x.Text, new { placeholder = "New Item" })<br />
+    <span class="defaultText">Quantity: <span id="quantityValue">@Model.Quantity</span></span>
+    <text>&nbsp;&nbsp;&nbsp;</text>
+    <button class="button" id="increment" type="button">+</button>
+    <text>&nbsp;</text>
+    <button class="button" id="decrement" type="button">-</button>
+    @Html.TextBoxFor(x => x.Price, new { placeholder = "$ Price" })
+    @Html.TextBoxFor(x => x.Url, new { placeholder = "URL" })
+    @Html.HiddenFor(x => x.ListId)
+    @Html.HiddenFor(x => x.Quantity)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Add</button>
+        <button type="button" class="button clearButton" onclick="clearForm(this)">Clear</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#QuickAdd").change(function () {
+            if ($(this).val()) {
+                var previousValue = $("#Text").val();
+                $("#Text").val($(this).val()).attr("data-prev", previousValue);
+            } else {
+                $("#Text").val($("#Text").attr("data-prev")).removeAttr("data-prev");
+            }
+        });
+        $("#increment").click(function () {
+            var quantity = Number($("#quantityValue").text());
+            $("#quantityValue").html(quantity + 1);
+            $(this).closest("form").find("#Quantity").val(quantity + 1);
+        });
+
+        $("#decrement").click(function () {
+            var quantity = Number($("#quantityValue").text());
+            if (quantity - 1 > 0) {
+                $("#quantityValue").html(quantity - 1);
+                $(this).closest("form").find("#Quantity").val(quantity - 1);
+            }
+        });
+    });
+</script>

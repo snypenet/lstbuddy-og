@@ -1,0 +1,204 @@
+﻿@model Lists.Models.Data.ListItemContainer
+@{
+    var list = new Lists.Models.Data.List(Model.ListId);
+}
+<br />
+@if (Model != null && Model.Items.Any())
+{
+    <div class="error">
+        
+    </div>
+    foreach (var item in Model.Items.OrderBy(x => x.CreatedOn))
+    {
+        <div class="listItem" data-item-id="@item.Id">
+            <div class="listItemContent">
+                @item.Text
+                @if(item.Url != null)
+                {
+                    <br />
+                    <a href="@Html.Raw(item.Url)" target="_blank">More Information</a>
+                }
+                @if(item.AmazonItems.Any())
+                {
+                    <br />
+                    <strong><a class="singleAnchor" onclick="toggleAmazonItems(this, @item.Id)">Show Related Products</a></strong>
+                    <div class="externalProducts" data-item-products="@item.Id">
+                        @foreach (var amazonItem in item.AmazonItems)
+                        {
+                            <div class="externalProduct"><a href="@Html.Raw(amazonItem.Link)" target="_blank">@(amazonItem.Name.Length > 30 ? amazonItem.Name.Remove(29) : amazonItem.Name)</a></div>
+                        }
+                    </div>
+                }
+            </div>
+            <br />
+            @if (((Lists.Models.Data.Person)ViewBag.CurrentUser).Id != list.Owner.Id && item.ClaimedBy != null && item.ClaimedBy.People.Count > 0 && !((Lists.Models.Data.Person)ViewBag.CurrentUser).IsGuest)
+            {
+                <div class="listItemClaimedBy">Claimed By: 
+                    @for (int i = 0; i < item.ClaimedBy.People.Count; i++)
+                    {
+                        @(string.Format("{0} {1}{2}", item.ClaimedBy.People[i].FirstName,
+                            item.ClaimedBy.People[i].LastName,
+                            (i + 1) == item.ClaimedBy.People.Count ? "" : ", "))
+                    }
+                </div>
+                <br />
+            }
+            <div class="listItemInfo">
+                @if ((((Lists.Models.Data.Person)ViewBag.CurrentUser).Id == list.Owner.Id ||
+                list.Editors.Contains(((Lists.Models.Data.Person)ViewBag.CurrentUser).Id)) && !list.IsExpired)
+                {
+                    <span class="listItemAction icon-remove"></span>
+                    <span class="listItemAction icon-pencil"></span>
+                    <span class="listItemAction item-action-undelete hidden">Undo</span>
+                }
+                <span class="listItemAction icon-bubble"></span><span class="actionCount commentCount">@item.Comments.Comments.Count)</span>
+                @if (((Lists.Models.Data.Person)ViewBag.CurrentUser).Id != list.Owner.Id &&
+                (!list.Editors.Contains(((Lists.Models.Data.Person)ViewBag.CurrentUser).Id)) && !list.IsExpired && !((Lists.Models.Data.Person)ViewBag.CurrentUser).IsGuest)
+                {
+                    if (item.ClaimedBy != null && item.ClaimedBy.Contains(((Lists.Models.Data.Person)ViewBag.CurrentUser).Id))
+                    {
+                        <span class="listItemAction listItemActionLink" data-action-url="@Html.Raw(Url.Action("UnClaim", "Lists", new { id = item.Id, type = Lists.Models.Data.ListItemType.Birthday, listId = item.ListId }))">Unclaim</span> 
+                    }
+                    else
+                    {
+                        <span class="listItemAction listItemActionLink" data-action-url="@Html.Raw(Url.Action("Claim", "Lists", new { id = item.Id, type = Lists.Models.Data.ListItemType.Birthday, listId = item.ListId }))">Claim</span>
+                    }
+                }
+            </div>
+            <div class="listItemCommentsContainer" data-comment-item-id="@item.Id">
+                @Html.Partial("~/Views/Comments/_PartialListItemComments.cshtml", item.Comments)
+            </div>
+        </div>
+    }
+}
+else
+{
+    <br />
+    <div class="defaultText">No birthday items found :(</div>
+}
+<br />
+<script type="text/javascript">
+    function showMoreComments(context) {
+        showLoader();
+        var $listItem = $(context).closest(".listItem");
+        $listItem.find(".listItemCommentsContainer")
+                 .load("@Url.Action("ListItem", "Comments", new { listItem = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(context).attr("data-id")), function () {
+                     hideLoader();
+                 });
+    }
+
+    function showLessComments(context) {
+        showLoader();
+        var $listItem = $(context).closest(".listItem");
+        $listItem.find(".listItemCommentsContainer")
+                 .load("@Url.Action("PartialListItem", "Comments", new { listItem = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(context).attr("data-id")), function () {
+                     hideLoader();
+                 });
+    }
+
+    function handleAddCommentsOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        var itemid = jqXHR.getResponseHeader("ListItemId");
+        if (PostSuccess(jqXHR)) {
+            $("[data-comment-item-id=" + itemid + "]").html(data).promise().done(function(){
+                $("[data-comment-item-id=" + itemid + "] .NewComment form").find("#CommentText").val("");
+                var $checkbox = $("[data-comment-item-id=" + itemid + "] .NewComment form").find("#IsWhisper");
+                if ($checkbox.is(":checked")) {
+                    $checkbox.click();
+                }
+            });
+        } else {
+            $("[data-comment-item-id=" + itemid + "] .NewComment").html(data);
+        }
+    }
+
+    $(function () {
+        $(".listItemActionLink").click(function () {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr("data-action-url"),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    if (PostSuccess(jqXHR)) {
+                        $("#birthdayListItems").html(data);
+                    } else {
+                        $(".error").html(jqXHR.getResponseHeader("PostError"));
+                    }
+                }
+            });
+        });
+
+        $(".icon-remove").click(function () {
+            showLoader();
+            $(this).closest(".listItem").addClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").removeClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".item-action-undelete").click(function () {
+            showLoader();
+            $(this).closest(".listItem").removeClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").addClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UnDeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".icon-pencil").click(function () {
+            $(".editListItem").remove();
+            $(this).closest(".listItem")
+                   .append($("<div></div>").addClass("editListItem")
+                                      .attr("id", "listItemEdit")
+                                      .load("@Html.Raw(Url.Action("Edit", "Lists", new { id = "LIST_ITEM_ID", type = Lists.Models.Data.ListItemType.Birthday }))".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id"))));
+        });
+    });
+
+    function deleteComment(id, isPartial, listItemId) {
+        showLoader();
+        $("[data-comment-item-id=" + listItemId + "]")
+                 .load("@Html.Raw(Url.Action("DeleteComment", "Comments", new { id = "COMMENT_ID", partial = "IS_PARTIAL" }))".replace("COMMENT_ID", id).replace("IS_PARTIAL", isPartial), function () {
+                     hideLoader();
+                 });
+    }
+
+    function toggleAmazonItems(context, itemId) {
+        if ($("[data-item-products=" + itemId + "]").is(":visible")) {
+            $("[data-item-products=" + itemId + "]").hide();
+            $(context).html("Show Related Products");
+        } else {
+            $("[data-item-products=" + itemId + "]").show();
+            $(context).html("Hide Related Products");
+        }
+    }
+
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#birthdayListItems").html(data).promise().done(function () {
+                clearForm("#listItemAdd form");
+            });
+        } else {
+            $("#listItemAdd").html(data);
+        }
+    }
+    
+    function handleEditOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#birthdayListItems").html(data);
+        } else {
+            $("#listItemEdit").html(data);
+        }
+    }
+</script>

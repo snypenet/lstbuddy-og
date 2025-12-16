@@ -1,0 +1,69 @@
+﻿@model List<Lists.Models.Data.QuickAddGroceryItem>
+
+<div class="defaultText">Manual Quick Add Grocery Items:</div>
+<br />
+<div class="dataViewWrapper">
+@if (Model != null && Model.Any())
+{
+    <div class="quickAddItems">
+        @foreach (var item in Model)
+        {
+            <div class="quickAddItem" data-id="@item.Id">
+                <div class="quickAddItemName">
+                    @item.ItemName
+                </div>
+                <div class="quickAddItemActions">
+                    <span class="listItemAction icon-remove"></span>
+                    <span class="listItemAction item-action-undelete hidden">Undo</span>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="defaultText">There are no items :(</div>
+}
+</div>
+<div id="addNewQuickAddItem">
+    @Html.Partial("_NewQuickAddGroceryItem", new Lists.Models.View.NewQuickAddGroceryItem())
+</div>
+<script type="text/javascript">
+    $(".icon-remove").click(function () {
+        showLoader();
+        $(this).closest(".quickAddItem").addClass("deletedItem");
+        $(this).closest(".quickAddItem").find(".item-action-undelete").removeClass("hidden");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteQuickAddItem", "Profile", new { itemId = "ITEM_ID" })".replace("ITEM_ID", $(this).closest(".quickAddItem").attr("data-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+    });
+
+    $(".item-action-undelete").click(function () {
+        showLoader();
+        var $item = $(this).closest(".quickAddItem");
+        $item.removeClass("deletedItem");
+        $item.find(".item-action-undelete").addClass("hidden");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UndeleteQuickAddItem", "Profile", new { itemName = "ITEM_NAME" })".replace("ITEM_NAME", $.trim($item.find(".quickAddItemName").text())),
+            success: function (data, textStatus, jqXHR) {
+                hideLoader();
+            }
+        });
+    });
+
+    function handleAddQuickAddItemOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#quickAddGroceryItems").html(data).promise().done(function () {
+                clearForm("#addNewQuickAddItem form");
+            });;
+        } else {
+            $("#addNewQuickAddItem").html(data);
+        }
+    }
+</script>

@@ -1,0 +1,29 @@
+﻿<div id="connectionCheckMessage" class="error">
+</div>
+<script type="text/javascript">
+    var previouslyFailed = false;
+    var retryCount = 0;
+    function checkConnection() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CheckConnection", "Utils")",
+            success: function (data, textStatus, jqXHR) {
+                retryCount = 0;
+                if (previouslyFailed) {
+                    $("#connectionCheckMessage").html("Connected").fadeOut(3000);
+                }
+                previouslyFailed = false;
+                setTimeout(checkConnection, 30000);
+            },
+            error: function () {
+                previouslyFailed = true;
+                retryCount++;
+                $("#connectionCheckMessage").html("Failed to connect to server (" + retryCount + ")");
+                setTimeout(checkConnection, 10000);
+            }
+        });
+    }
+    $(function () {
+        checkConnection();
+    });
+</script>

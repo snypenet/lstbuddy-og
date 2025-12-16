@@ -1,0 +1,236 @@
+﻿@model Lists.Models.Data.ListContainer
+@{
+    var user = ViewBag.CurrentUser as Lists.Models.Data.Person;
+}
+<br />
+<button id="addList" class="button">Add List</button>
+@if (Model != null && Model.Lists.Any())
+{
+    <br />
+    <div class="listNames">
+        @if (Model.PreviousFrom != 0 || Model.PreviousTo != 0)
+        {
+            <div id="pagePrevious" data-from-row="@Model.PreviousFrom" data-to-row="@Model.PreviousTo" class="icon-arrow-up pagerButton"></div>
+        }
+        @foreach (var list in Model.Lists)
+        {
+            string listIcon = list.Type.Name.ToLower() == "prayer request" ?
+                "flaticon-church7" : list.Type.Name.ToLower() == "birthday" ?
+                "flaticon-present8" : list.Type.Name.ToLower() == "christmas" ?
+                "flaticon-christmas15" : list.Type.Name.ToLower() == "to do" ?
+                "flaticon-task" : list.Type.Name.ToLower() == "grocery" ?
+                "flaticon-shopping66" : list.Type.Name.ToLower() == "pros and cons" ?
+                "icon-scale" : "listNameGeneric";
+
+            if (!list.IsPrivate)
+            {
+                <div class="listName @(list.IsExpired ? "expiredList" : "")" data-list-id="@list.Id">
+                    <div class="listNameContent">
+                        @if (list.IsPublic || list.Owner.Id == user.Id || list.Editors.Contains(user.Id) || list.Viewers.Contains(user.Id))
+                        {
+                            <a href="@Url.Action("LookAt", "Lists", new { id = list.Id, minRow = Model.PreviousTo, maxRow = Model.PreviousTo + 10 })" onclick="showLoader()">@list.Name</a>
+                        }
+                        else
+                        {
+                            @list.Name
+                        }
+                    </div>
+                    <div class="@listIcon listIcon">
+                    </div>
+                    <div class="listNameOwner">
+                        Owner: @list.Owner.FirstName
+                    </div>
+                    <div class="listNameTags">
+                        @if (list.Editors.Contains(user.Id) || user.Id == list.Owner.Id)
+                        {
+                            <text>*Editable</text><br />
+                        }
+                        @if (list.Viewers.Contains(user.Id))
+                        {
+                            <text>*Viewable</text><br />
+                        }
+                        @if (list.IsPublic)
+                        {
+                            <text>*Public</text><br />
+                        }
+                        @if (list.IsExpired)
+                        {
+                            <strong>*Expired</strong><br />    
+                        }
+                        @if (!list.Viewers.Contains(user.Id) && !list.Editors.Contains(user.Id) && list.Owner.Id != user.Id)
+                        {
+                            <text>*Request Access</text><br />
+                        }
+                        @if (list.IsPrivate)
+                        {
+                            <text>*Private</text><br />    
+                        }
+                    </div>
+                    <div class="listItemInfo">
+                        @if (list.Editors.Contains(user.Id) || list.Owner.Id == user.Id)
+                        {
+                            <span class="listItemAction icon-remove"></span>
+                            <span class="listItemAction icon-pencil"></span>
+                            <span class="listItemAction icon-lock"></span>
+                            <span class="listItemAction list-action-undelete hidden">Undo</span>
+                        }
+                        else if (!user.IsGuest)
+                        {
+                            <span class="listItemAction icon-lock"></span>
+                        }
+                        
+                        @if (list.IsPublic || list.Owner.Id == user.Id || list.Editors.Contains(user.Id) || list.Viewers.Contains(user.Id))
+                        {
+                            <span class="listItemAction icon-print"></span>
+                        }
+                    </div>
+                </div>
+            }
+            else if (list.Owner.Id == user.Id || list.Editors.Contains(user.Id) || list.Viewers.Contains(user.Id))
+            {
+                <div class="listName @(list.IsExpired ? "expiredList" : "")" data-list-id="@list.Id">
+                    <div class="listNameContent">
+                        <a href="@Url.Action("LookAt", "Lists", new { id = list.Id, minRow = Model.PreviousTo, maxRow = Model.PreviousTo + 10 })" onclick="showLoader()">@list.Name</a>
+                    </div>
+                    <div class="@listIcon listIcon">
+                    </div>
+                    <div class="listNameOwner">
+                        Owner: @list.Owner.FirstName
+                    </div>
+                    <div class="listNameTags">
+                        @if (list.Editors.Contains(user.Id) || user.Id == list.Owner.Id)
+                        {
+                            <text>*Editable</text><br />
+                        }
+                        @if (list.Viewers.Contains(user.Id))
+                        {
+                            <text>*Viewable</text><br />
+                        }
+                        @if (list.IsPublic)
+                        {
+                            <text>*Public</text><br />
+                        }
+                        @if (list.IsExpired)
+                        {
+                            <strong>*Expired</strong><br />    
+                        }
+                        @if (!list.Viewers.Contains(user.Id) && !list.Editors.Contains(user.Id) && list.Owner.Id != user.Id)
+                        {
+                            <text>*Request Access</text><br />
+                        }
+                        @if (list.IsPrivate)
+                        {
+                            <text>*Private</text><br />    
+                        }
+                    </div>
+                    <div class="listItemInfo">
+                        @if (list.Editors.Contains(user.Id) || list.Owner.Id == user.Id)
+                        {
+                            <span class="listItemAction icon-remove"></span>
+                            <span class="listItemAction icon-pencil"></span>
+                            <span class="listItemAction icon-lock"></span>
+                            <span class="listItemAction list-action-undelete hidden">Undo</span>
+                        }
+                        else if (!user.IsGuest)
+                        {
+                            <span class="listItemAction icon-lock"></span>
+                        }
+                        else if (list.IsPublic || list.Owner.Id == user.Id || list.Editors.Contains(user.Id) || list.Viewers.Contains(user.Id))
+                        {
+                            <span class="listItemAction icon-print"></span>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.NextFrom != 0 || Model.NextTo != 0)
+        {
+            <div id="pageNext" data-to-row="@Model.NextTo" data-from-row="@Model.NextFrom" class="icon-arrow-down pagerButton"></div>
+        }
+    </div>
+    <br />
+}
+else
+{
+    <br />
+    <div class="defaultText">No lists found :(</div>    
+    <br />
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#addList").click(function () {
+            window.location.href = "@Url.Action("Add", "Lists")";
+        });
+
+        $(".icon-print").click(function () {
+            window.open("@Url.Action("Print", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", $(this).closest(".listName").attr("data-list-id")));
+        });
+
+        $(".icon-remove").click(function () {
+            showLoader();
+            $(this).closest(".listName").addClass("deletedList");
+            $(this).closest(".listName").find(".list-action-undelete").removeClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteList", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", $(this).closest(".listName").attr("data-list-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".list-action-undelete").click(function () {
+            showLoader();
+            $(this).closest(".listName").removeClass("deletedList");
+            $(this).closest(".listName").find(".list-action-undelete").addClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UndoDeleteList", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", $(this).closest(".listName").attr("data-list-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".icon-lock").click(function () {
+            window.location.href = "@Url.Action("EditListSecurity", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", $(this).closest(".listName").attr("data-list-id"));
+        });
+
+        $(".icon-pencil").click(function () {
+            $(".editListSecurity").remove();
+            $(".editListName").remove();
+            $(this).closest(".listName")
+                   .append($("<div></div>")
+                   .addClass("editListName")
+                   .load("@Url.Action("EditList", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", $(this).closest(".listName").attr("data-list-id"))));
+        });
+
+        $("#pagePrevious").click(function () {
+            showLoader();
+            history.pushState(null, "All Lists", "/Lists?minRow=" + $(this).attr("data-from-row") + "&maxRow=" + $(this).attr("data-to-row"));
+            $("#listNames").load("@Html.Raw(Url.Action("PageListNames", "Lists", new { fromRow = "FROM_ROW", toRow = "TO_ROW" }))".replace("FROM_ROW", $(this).attr("data-from-row")).replace("TO_ROW", $(this).attr("data-to-row")),
+                function () {
+                    hideLoader();
+                });
+        });
+
+        $("#pageNext").click(function () {
+            showLoader();
+            history.pushState(null, "All Lists", "/Lists?minRow=" + $(this).attr("data-from-row") + "&maxRow=" + $(this).attr("data-to-row"));
+            $("#listNames").load("@Html.Raw(Url.Action("PageListNames", "Lists", new { fromRow = "FROM_ROW", toRow = "TO_ROW" }))".replace("FROM_ROW", $(this).attr("data-from-row")).replace("TO_ROW", $(this).attr("data-to-row")),
+                function () {
+                    hideLoader();
+                });
+        });
+    });
+
+    function handleEditOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#listNames").html(data);
+        } else {
+            $("#editList").html(data);
+        }
+    }
+</script>

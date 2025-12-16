@@ -1,0 +1,32 @@
+﻿@model Lists.Models.View.ProfileInformation
+@{
+    ViewBag.Title = "Lst Buddy - Profile";
+}
+
+<div class="pageTitle defaultText">Profile</div>
+<br />
+<div id="credentials">@Html.Partial("_CredentialsView", Model.Credentials)</div>
+<hr />
+<br />
+<div id="contactInformation">@Html.Partial("_ContactInformationView", Model.ContactInformation)</div>
+<hr />
+<br />
+<div id="quickAddGroceryItems">@Html.Partial("_QuickGroceryItemView", Model.QuickAddItems)</div>
+<hr />
+<br />
+<div id="autoQuickAddGroceryItems">@Html.Partial("_AutoQuickGroceryItemView", Model.AutoQuickAddItems)</div>
+<br />
+<script type="text/javascript">
+    function edit(context) {
+        if (context == 'contactInfo') {
+            $("#contactInformation").load("@Html.Raw(Url.Action("LoadEdit", "Profile", new { type = "contactInfo" }))");
+        } else {
+            $("#credentials").load("@Html.Raw(Url.Action("LoadEdit", "Profile", new { type = "creds" }))");
+        }
+    }
+
+    function handleContactInfoEditOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        $("#contactInformation").html(data);
+    }
+</script>

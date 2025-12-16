@@ -1,0 +1,73 @@
+﻿@model Lists.Models.View.EditProsAndConsListItem
+@{
+    var types = new List<SelectListItem>
+    {
+        new SelectListItem
+        {
+            Text = "Pro",
+            Value = ((int)Lists.Models.Data.ProOrCon.Pro).ToString()
+        },
+        new SelectListItem
+        {
+            Text = "Con",
+            Value = ((int)Lists.Models.Data.ProOrCon.Con).ToString()
+        }
+    };
+}
+@using (Ajax.BeginForm("SaveProAndConItem", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleEditOnSuccess"
+}))
+{
+    @Html.ValidationSummary()
+    <br /><br />
+    @Html.TextBoxFor(x => x.Text, new { placeholder = "New Item" })
+    <br />  
+    <table class="control">
+        <tr>
+            <td class="controlLabel"><span>Important</span></td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ProConWeight.Important)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+        <tr>
+            <td class="controlLabel"><span>More Important</span></td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ProConWeight.MoreImportmant)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+        <tr>
+            <td class="controlLabel"><span>Very Important</span></td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ProConWeight.VeryImportment)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+    </table>
+    <br />
+    @Html.DropDownListFor(x => x.Type, types, "Pro or Con")
+    <br />
+    <br />
+    @Html.TextBoxFor(x => x.Url, new { placeholder = "URL" })
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Weight)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Add</button>
+        <button type="button" class="button clearButton" onclick="clearForm(this)">Clear</button>
+        <button type="button" id="cancelButton" class="button">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $(".radio").click(function () {
+            $(".radio").removeClass("icon-radio-checked").addClass("icon-radio-unchecked");
+            $(this).addClass("icon-radio-checked").removeClass("icon-radio-unchecked");
+            $("#Weight").val($(this).attr("data-value"));
+        });
+
+        $("#cancelButton").click(function () {
+            revertToViewColumns();
+            $(this).closest(".editListItem").remove();
+        });
+
+        $("#Weight").val("@((int)Model.Weight)");
+        $(".radio[data-value='@((int)Model.Weight)']").addClass("icon-radio-checked").removeClass("icon-radio-unchecked");
+        $("#Type").val("@((int)Model.Type)")
+    });
+
+</script>

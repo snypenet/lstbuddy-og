@@ -1,0 +1,8 @@
+﻿@model Lists.Models.Data.List
+@{
+    ViewBag.Title = Model.Name + " | Shared List";
+}
+
+@Html.Partial("_GoogleAnalytics")
+
+<div id="listContent">@Html.Partial(ViewBag.PartialView as string, Model)</div>

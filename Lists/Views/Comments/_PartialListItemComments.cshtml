@@ -1,0 +1,80 @@
+﻿@model Lists.Models.Data.CommentContainer
+@{
+    var list = new Lists.Models.Data.List(new Lists.Models.Data.ListItem(Model.ListItemId).ListId);
+    var user = (Lists.Models.Data.Person)ViewBag.CurrentUser;
+}
+<br />
+<br />
+<div class="listItemComments">
+    @if (Model != null && Model.Comments.Any())
+    {
+        {
+            var comments = list.Owner.Id == user.Id || list.Editors.Contains(user.Id) || user.IsGuest ? Model.Comments.Where(c => !c.IsWhisper).ToList() : Model.Comments;   
+
+            if (comments.Count() > 3)
+            {
+                <a class="singleAnchor" onclick="showMoreComments(this)" data-id="@Model.ListItemId">Show More</a>
+                for (int i = comments.Count() - 3; i < comments.Count(); i++)
+                {
+                    <div class="listItemComment @(comments[i].IsWhisper ? "commentWhisper" : "")">
+                        <div class="commentText">
+                            <strong>@string.Format("{0} {1}", comments[i].CreatedBy.FirstName, comments[i].CreatedBy.LastName)
+                            says: </strong><br />
+                            @Model.Comments[i].Text
+                            @if (comments[i].CreatedBy.Id == user.Id || list.Editors.Contains(user.Id) || list.Owner.Id == user.Id)
+                            {
+                                <br />
+                                <a class="commentDeleteAnchor" onclick="deleteComment(@comments[i].Id, true, @comments[i].ListItemId)">Delete</a>
+                            }
+                        </div>
+                        <div class="commentInformation">
+                            @if (comments[i].IsWhisper)
+                            {
+                                <div><strong>*Whisper</strong></div>
+                            }
+                            <div class="commentCreatedOn">@comments[i].CreatedOn</div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                foreach (var item in comments)
+                {
+                    <div class="listItemComment @(item.IsWhisper ? "commentWhisper" : "")">
+                        <div class="commentText">
+                            <strong>@string.Format("{0} {1}", item.CreatedBy.FirstName, item.CreatedBy.LastName)
+                            says: </strong><br />
+                            @item.Text
+                            @if(item.CreatedBy.Id == user.Id || list.Editors.Contains(user.Id) || list.Owner.Id == user.Id)
+                            {
+                                <br />
+                                <a class="commentDeleteAnchor" onclick="deleteComment(@item.Id, true, @item.ListItemId)">Delete</a>
+                            }
+                        </div>
+                        <div class="commentInformation">
+                            @if(item.IsWhisper)
+                            {
+                                <div><strong>*Whisper</strong></div>
+                            }
+                            <div class="commentCreatedOn">@item.CreatedOn</div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+    <div class="NewComment">
+        @Html.Partial("~/Views/Comments/_AddNewComment.cshtml", new Lists.Models.View.NewComment
+   {
+       ListItemId = Model.ListItemId,
+       IsParial = true
+   })      
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("[data-item-id=@Model.ListItemId]").find(".commentCount").html("@(list.Owner.Id == user.Id ? Model.Comments.Count(c => !c.IsWhisper) : Model.Comments.Count())");
+    });
+</script>

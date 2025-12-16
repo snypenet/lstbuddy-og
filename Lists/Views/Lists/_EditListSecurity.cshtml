@@ -1,0 +1,170 @@
+﻿@model Lists.Models.Data.ListSecurityContainer
+@{
+    var user = ViewBag.CurrentUser as Lists.Models.Data.Person;
+    var list = new Lists.Models.Data.List(Model.ListId);
+    var requestedListSecurity = new Lists.Models.Data.ListAccessRequestContainer(Model.ListId);
+}
+<div class="listSecurity">
+    @if (user.Id != list.Owner.Id && !Model.Contains(user))
+    {
+        if (requestedListSecurity.Contains(user.Id))
+        {
+            <br />
+            <div class="defaultText">You've requested the following access</div>
+            <br />
+            <div class="listSecurityItemRequest" data-user-id="@user.Id">
+                <div class="listSecurityPerson">@string.Format("{0} {1}", user.FirstName, user.LastName)</div>
+                <div class="ListSecurityAccess">
+                    <strong>Access:&nbsp;@requestedListSecurity.Requests.Single(s => s.Requestor.Id == user.Id).AccessType.ToString()</strong>
+                </div>
+            </div>
+        }
+        else
+        {
+            <br />
+            <div class="defaultText">You do not currently have access to this list.</div>
+            <br />
+            <button class="button" id="requestListSecurity">Request Access</button>
+        }
+    }
+    else
+    {
+        if (user.Id == list.Owner.Id ||
+            Model.Filter(m => m.Access == Lists.Models.Data.ListSecurityType.Edit).Contains(user))
+        {
+            if (requestedListSecurity.Requests.Any())
+            {
+                <br />
+                <div class="sectionLabel defaultText">Requested List Access</div>
+                <br />
+                    foreach (var request in requestedListSecurity.Requests)
+                    {
+                    <div class="listSecurityItemRequest" data-request-id="@request.Id">
+                        <div class="listSecurityPerson">@string.Format("{0} {1}", request.Requestor.FirstName, request.Requestor.LastName)</div>
+                        <div class="ListSecurityAccess">
+                            <strong>Access:&nbsp;@request.AccessType.ToString()</strong>
+                        </div>
+                        <div class="listSecurityAccessActions">
+                            <span class="listItemAction icon-thumbs-down"></span>
+                            <span class="listItemAction icon-thumbs-up"></span>
+                            <span class="listItemAction icon-pencil"></span>
+                        </div>
+                    </div>
+                    }
+                <br />
+            }
+            if (Model != null && Model.Security.Any())
+            {
+                <div class="sectionLabel defaultText">Current List Access</div>
+                <br />
+                foreach (var item in Model.Security)
+                {
+                    <div class="listSecurityItem" data-is-viewer="@(item.Access == Lists.Models.Data.ListSecurityType.View)" data-user-id="@item.Person.Id">
+                        <div class="listSecurityPerson">@string.Format("{0} {1}", item.Person.FirstName, item.Person.LastName)</div>
+                        <div class="listSecurityAccess">
+                            <strong>Access:&nbsp;@item.Access.ToString()</strong>
+                        </div>
+                        <div class="listSecurityAccessActions">
+                            <span class="listItemAction icon-remove"></span>
+                            <span class="listItemAction icon-pencil"></span>
+                            <span class="listItemAction security-action-undelete hidden">Undo</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <br />
+                <div class="defaultText">No one else can view or edit your list :(</div>
+            }
+    
+            <br />
+            <button class="button" id="addListSecurity">Add Access</button>
+        }
+        else
+        {
+            <br />
+            <div class="defaultText">You currently have view access to this list.</div>
+            <br />
+            <button class="button" id="requestListSecurity">Request Different Access</button>
+        }
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".icon-thumbs-down").click(function () {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "@Html.Raw(Url.Action("ApproveListAccess", "Lists", new { id = "REQUEST_ID", approved = false }))".replace("REQUEST_ID", $(this).closest(".listSecurityItemRequest").attr("data-request-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    $("#listSecurityItems").html(data);
+                }
+            });
+        });
+        $(".icon-thumbs-up").click(function () {
+            showLoader();
+            $.ajax({
+                type: "POST",
+                url: "@Html.Raw(Url.Action("ApproveListAccess", "Lists", new { id = "REQUEST_ID", approved = true }))".replace("REQUEST_ID", $(this).closest(".listSecurityItemRequest").attr("data-request-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                    $("#listSecurityItems").html(data);
+                }
+            });
+        });
+
+        $(".icon-remove").click(function () {
+            showLoader();
+            var $security = $(this).closest(".listSecurityItem");
+            $security.addClass("deletedItem");
+            $security.find(".security-action-undelete").removeClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Html.Raw(Url.Action("DeleteAccess", "Lists", new { id = Model.ListId, PersonId = "PERSON_ID", isViewer = "IS_VIEWER" }))".replace("PERSON_ID", $security.attr("data-user-id")).replace("IS_VIEWER", $security.attr("data-is-viewer")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".security-action-undelete").click(function () {
+            showLoader();
+            var $security = $(this).closest(".listSecurityItem");
+            $security.removeClass("deletedItem");
+            $security.find(".security-action-undelete").addClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Html.Raw(Url.Action("UndeleteAccess", "Lists", new { id = Model.ListId, PersonId = "PERSON_ID", isViewer = "IS_VIEWER" }))".replace("PERSON_ID", $security.attr("data-user-id")).replace("IS_VIEWER", $security.attr("data-is-viewer")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $("#addListSecurity").click(function () {
+            window.location.href = "@Url.Action("AddListSecurityAccess", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", "@Model.ListId");
+        });
+
+        $("#requestListSecurity").click(function () {
+            window.location.href = "@Url.Action("RequestListAccess", "Lists", new { id = "LIST_ID" })".replace("LIST_ID", "@Model.ListId");
+        });
+
+        $(".listSecurityItem .listSecurityAccessActions .icon-pencil").click(function () {
+            $(".editListSecurity").remove();
+            $(this).closest(".listSecurityItem")
+                   .append($("<div></div>")
+                   .addClass("editListSecurity")
+                   .load("@Url.Action("EditExistingListSecurity", "Lists", new { id = Model.ListId, personId = "PERSON_ID" })".replace("PERSON_ID", $(this).closest(".listSecurityItem").attr("data-user-id"))));
+        });
+
+        $(".listSecurityItemRequest .listSecurityAccessActions .icon-pencil").click(function () {
+            $(".editListSecurity").remove();
+            $(this).closest(".listSecurityItemRequest")
+                   .append($("<div></div>")
+                   .addClass("editListSecurity")
+                   .load("@Url.Action("EditExistingListSecurityRequest", "Lists", new { id = "REQUEST_ID" })".replace("REQUEST_ID", $(this).closest(".listSecurityItemRequest").attr("data-request-id"))));
+        });
+    });
+</script>

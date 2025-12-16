@@ -1,0 +1,21 @@
+﻿@model Lists.Models.View.ResetPatternControl
+@{
+    ViewBag.Title = "Reset Pattern - Lst Buddy";
+}
+
+    <br />
+    <div class="pageTitle defaultText">Reset Pattern</div>
+    <br />
+    <div id="resetPattern">
+            @Html.Partial("_ResetPattern", Model)
+    </div>
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            window.location.href = data;
+        } else {
+            $("#resetPattern").html(data);
+        }
+    }
+</script>

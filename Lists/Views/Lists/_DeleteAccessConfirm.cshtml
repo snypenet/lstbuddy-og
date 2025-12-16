@@ -1,0 +1,21 @@
+﻿@model Lists.Models.Data.ListSecurity
+
+<br />
+<div class="defaultText">
+    Are you sure you want to delete @Model.Person.FirstName's access?
+</div>
+<br /><br />
+<button class="button" id="yesButton">Yes</button>
+<button class="button" id="noButton">No</button>
+
+<script type="text/javascript">
+    $(function () {
+        $("#yesButton").click(function () {
+            window.location.href = "@Url.Action("DeleteAccess", "Lists", new { id = Model.ListId, PersonId = Model.Person.Id })";
+        });
+
+        $("#noButton").click(function () {
+            window.location.href = "@Url.Action("CancelDeleteAccess", "Lists", new { id = Model.ListId })";
+        });
+    });
+</script>
