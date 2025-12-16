@@ -1,0 +1,21 @@
+﻿@model Lists.Models.Data.List
+
+<br />
+<div class="defaultText">
+    Are you sure you want to delete this item '@Model.Name'?
+</div>
+<br /><br />
+<button class="button" id="yesButton">Yes</button>
+<button class="button" id="noButton">No</button>
+
+<script type="text/javascript">
+    $(function () {
+        $("#yesButton").click(function () {
+            window.location.href = "@Url.Action("DeleteList", "Lists", new { id = Model.Id })";
+        });
+
+        $("#noButton").click(function () {
+            window.location.href = "@Url.Action("Index", "Lists")";
+        });
+    });
+</script>

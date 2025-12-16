@@ -1,0 +1,66 @@
+﻿@model List<Lists.Models.Data.QuickAddGroceryItem>
+
+<div class="defaultText">Auto Quick Add Grocery Items:</div>
+<br />
+<div class="dataViewWrapper">
+@if (Model != null && Model.Any())
+{
+    <div class="quickAddItems">
+        @foreach (var item in Model)
+        {
+            <div class="quickAddItem@(item.IsHidden ? " deletedItem" : "")" data-id="@item.Id">
+                <div class="quickAddItemName">
+                    @item.ItemName
+                </div>
+                <div class="quickAddItemActions">
+                    @if(item.IsHidden)
+                    {
+                        <span class="listItemAction listItemActionLink item-action-hide hidden">Hide</span>
+                        <span class="listItemAction listItemActionLink item-action-show">Show</span>
+                    }
+                    else
+                    {
+                        <span class="listItemAction listItemActionLink item-action-hide">Hide</span>
+                        <span class="listItemAction listItemActionLink item-action-show hidden">Show</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="defaultText">There are no items :(</div>
+}
+</div>
+<script type="text/javascript">
+    $(".item-action-hide").click(function () {
+        showLoader();
+        var $item = $(this).closest(".quickAddItem");
+        $item.addClass("deletedItem");
+        $item.find(".item-action-hide").addClass("hidden");
+        $item.find(".item-action-show").removeClass("hidden");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("HideQuickAddItem", "Profile", new { itemId = "ITEM_ID" })".replace("ITEM_ID", $item.attr("data-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+    });
+
+    $(".item-action-show").click(function () {
+        showLoader();
+        var $item = $(this).closest(".quickAddItem");
+        $item.removeClass("deletedItem");
+        $item.find(".item-action-hide").removeClass("hidden");
+        $item.find(".item-action-show").addClass("hidden");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UnhideQuickAddItem", "Profile", new { itemId = "ITEM_ID" })".replace("ITEM_ID", $item.attr("data-id")),
+            success: function (data, textStatus, jqXHR) {
+                hideLoader();
+            }
+        });
+    });
+</script>

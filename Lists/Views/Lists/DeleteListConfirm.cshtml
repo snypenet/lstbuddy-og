@@ -1,0 +1,12 @@
+﻿@model Lists.Models.Data.List
+@{
+    ViewBag.Title = "Delete List - Lst Buddy";
+}
+
+<br />
+<div class="pageTitle defaultText">Delete Confirm</div>
+<br />
+
+<div id="deleteList">
+    @Html.Partial("_DeleteListConfirm", Model)
+</div>

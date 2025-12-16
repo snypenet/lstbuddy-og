@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D305BA9C-2D91-4563-878C-EC6CF2CE73BC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lists.Models</RootNamespace>
+    <AssemblyName>Lists.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AmazonItem.cs" />
+    <Compile Include="Data\AmazonProductAdvertiser.cs" />
+    <Compile Include="Data\Attachment.cs" />
+    <Compile Include="Data\AttachmentCollection.cs" />
+    <Compile Include="Data\AttachmentData.cs" />
+    <Compile Include="Data\AverageGroceryPrice.cs" />
+    <Compile Include="Data\CellPhoneProvider.cs" />
+    <Compile Include="Data\ChangeControl.cs" />
+    <Compile Include="Data\ClaimedByContainer.cs" />
+    <Compile Include="Data\Comment.cs" />
+    <Compile Include="Data\CommentContainer.cs" />
+    <Compile Include="Data\ContactInformation.cs" />
+    <Compile Include="Data\Group.cs" />
+    <Compile Include="Data\GroupEditorContainer.cs" />
+    <Compile Include="Data\GroupViewerContainer.cs" />
+    <Compile Include="Data\IpAddressSalesTax.cs" />
+    <Compile Include="Data\ListAccessRequest.cs" />
+    <Compile Include="Data\ListAccessRequestContainer.cs" />
+    <Compile Include="Data\ListSecurityContainer.cs" />
+    <Compile Include="Data\ProOrCon.cs" />
+    <Compile Include="Data\QueuedEmail.cs" />
+    <Compile Include="Data\QuickAddGroceryItem.cs" />
+    <Compile Include="Data\SiteMessage.cs" />
+    <Compile Include="Data\SiteMessageType.cs" />
+    <Compile Include="Data\ViewerContainer.cs" />
+    <Compile Include="Data\GroceryPrices.cs" />
+    <Compile Include="Data\ListContainer.cs" />
+    <Compile Include="Data\EditorContainer.cs" />
+    <Compile Include="Data\List.cs" />
+    <Compile Include="Data\ListItem.cs" />
+    <Compile Include="Data\ListItemContainer.cs" />
+    <Compile Include="Data\ListItemType.cs" />
+    <Compile Include="Data\ListType.cs" />
+    <Compile Include="Data\Person.cs" />
+    <Compile Include="Data\PersonSearchResult.cs" />
+    <Compile Include="Data\ProConWeight.cs" />
+    <Compile Include="Mapping\ChangeControlMapper.cs" />
+    <Compile Include="Mapping\ContactInformationMapper.cs" />
+    <Compile Include="Mapping\CommentMapper.cs" />
+    <Compile Include="Mapping\AttachmentDataMapper.cs" />
+    <Compile Include="Mapping\AttachmentMapper.cs" />
+    <Compile Include="Mapping\CellPhoneProviderMapper.cs" />
+    <Compile Include="Mapping\ListAccessRequestMapper.cs" />
+    <Compile Include="Mapping\SiteMessageMapper.cs" />
+    <Compile Include="Mapping\IMapper.cs" />
+    <Compile Include="Mapping\IReferenceMapper.cs" />
+    <Compile Include="Mapping\ListItemMapper.cs" />
+    <Compile Include="Mapping\ListMapper.cs" />
+    <Compile Include="Mapping\ListTypeMapper.cs" />
+    <Compile Include="Mapping\PersonMapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Email.cs" />
+    <Compile Include="View\EditContactInformation.cs" />
+    <Compile Include="View\EditCredentials.cs" />
+    <Compile Include="View\EditListAccessRequest.cs" />
+    <Compile Include="View\EditProsAndConsListItem.cs" />
+    <Compile Include="View\EditPrayerRequestItem.cs" />
+    <Compile Include="View\ExistingContactInformation.cs" />
+    <Compile Include="View\ExistingCredentials.cs" />
+    <Compile Include="View\NewPrayerRequestItem.cs" />
+    <Compile Include="View\EditListSecurity.cs" />
+    <Compile Include="View\EditChristmasListItem.cs" />
+    <Compile Include="View\EditList.cs" />
+    <Compile Include="View\ForgotPattern.cs" />
+    <Compile Include="Data\ListSecurity.cs" />
+    <Compile Include="Data\ListSecurityType.cs" />
+    <Compile Include="View\NewChristmasListItem.cs" />
+    <Compile Include="View\EditBirthdayListItem.cs" />
+    <Compile Include="View\Credentials.cs" />
+    <Compile Include="View\EditGroceryListItem.cs" />
+    <Compile Include="View\EditListItem.cs" />
+    <Compile Include="View\NewBirthdayListItem.cs" />
+    <Compile Include="View\NewComment.cs" />
+    <Compile Include="View\NewGroceryListItem.cs" />
+    <Compile Include="View\NewList.cs" />
+    <Compile Include="View\NewListItem.cs" />
+    <Compile Include="View\NewListSecurity.cs" />
+    <Compile Include="View\NewPerson.cs" />
+    <Compile Include="View\NewProsAndConsListItem.cs" />
+    <Compile Include="View\NewQuickAddGroceryItem.cs" />
+    <Compile Include="View\ProfileInformation.cs" />
+    <Compile Include="View\ResetPatternControl.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lists.Constants\Lists.Constants.csproj">
+      <Project>{cfd7add2-29b0-462d-8afd-8e7aa4d1044f}</Project>
+      <Name>Lists.Constants</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

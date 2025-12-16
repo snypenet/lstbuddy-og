@@ -1,0 +1,24 @@
+﻿@model Lists.Models.View.NewList
+@{
+    ViewBag.Title = "Add - Lst Buddy";
+}
+<div class="pageTitle defaultText">Add List</div>
+@if(((Lists.Models.Data.Person)ViewBag.CurrentUser).IsGuest)
+{
+    <br />
+    <div class="warningMessage centerText">
+        <strong>Warning:</strong><br />
+        As a guest, any list you create <br />can be edited byother guests, viewed by <br />everyone and will be automatically deleted in one week.
+    </div>
+}
+<div id="addList">@Html.Partial("_Add", Model)</div>
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            window.location.href = unescape(data);
+        } else {
+            $("#addList").html(data);
+        }
+    }
+</script>

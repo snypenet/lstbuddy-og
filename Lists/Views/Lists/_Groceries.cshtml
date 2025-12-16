@@ -1,0 +1,26 @@
+﻿@model Lists.Models.Data.List
+@{
+    var user = (Lists.Models.Data.Person)ViewBag.CurrentUser;
+}
+<div class="listTitle defaultText">@Model.Name</div>
+<div class="listOwner defaultText">Owner: @string.Format("{0} {1}", Model.Owner.FirstName, Model.Owner.LastName)</div>
+@Html.Partial("_ShareOnFacebook", Model.ShareId)
+
+<div id="groceryListItems" class="listItems">
+    @Html.Partial("_GroceryListItems", Model.Items)
+</div>
+@if ((Model.Editors.Contains(((Lists.Models.Data.Person)ViewBag.CurrentUser).Id) ||
+    Model.Owner.Id == ((Lists.Models.Data.Person)ViewBag.CurrentUser).Id) && !Model.IsExpired)
+{
+<hr />
+<div id="listItemAdd">
+    @Html.Partial("_NewGroceryListItem", new Lists.Models.View.NewGroceryListItem
+    {
+        ListId = Model.Id,
+        Quantity = 1,
+        QuickAdd = Lists.Models.Data.QuickAddGroceryItem.Get(user.Id, true).Concat(Lists.Models.Data.QuickAddGroceryItem.Get(user.Id)).Where(g => !g.IsHidden).Select(item => item.ItemName).Distinct()
+    })
+</div>
+}
+
+

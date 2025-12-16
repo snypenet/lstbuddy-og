@@ -1,0 +1,4 @@
+﻿@model Lists.Models.Data.List
+
+@Html.Partial("_GoogleAnalytics")
+<div id="listContent">@Html.Partial(ViewBag.PartialView as string, Model)</div>

@@ -1,0 +1,32 @@
+﻿@model List<Lists.Models.Data.SiteMessage>
+
+<div class="siteMessages">
+    @if (Model != null && Model.Any())
+    {
+        <div class="siteMessage messagesTitle">
+            <span id="siteMessageText">Show Messages</span> <span class="icon-info"></span> @Model.Count(m => m.Type == Lists.Models.Data.SiteMessageType.Information)
+            <span class="icon-bullhorn"></span> @Model.Count(m => m.Type == Lists.Models.Data.SiteMessageType.Announcment)
+            <span class="icon-notification"></span> @Model.Count(m => m.Type == Lists.Models.Data.SiteMessageType.Warning)
+        </div>
+        {
+            if(Model.Any(message => message.Type == Lists.Models.Data.SiteMessageType.Information))
+            {
+                @Html.Partial("_Information", Model.Where(message => message.Type == Lists.Models.Data.SiteMessageType.Information))
+            }
+            if (Model.Any(message => message.Type == Lists.Models.Data.SiteMessageType.Warning))
+            {
+                @Html.Partial("_Warnings", Model.Where(message => message.Type == Lists.Models.Data.SiteMessageType.Warning))
+            }
+            if (Model.Any(message => message.Type == Lists.Models.Data.SiteMessageType.Announcment))
+            {
+                @Html.Partial("_Announcements", Model.Where(message => message.Type == Lists.Models.Data.SiteMessageType.Announcment))
+            }
+        }
+    }
+    else
+    {
+        <div class="siteMessage">
+            No messages to display :(
+        </div>
+    }
+</div>

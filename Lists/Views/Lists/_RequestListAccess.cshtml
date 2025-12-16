@@ -1,0 +1,45 @@
+﻿@model Lists.Models.View.NewListSecurity
+
+@using (Ajax.BeginForm("SaveListAccessRequest", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleOnSuccess"
+}))
+{
+    @Html.ValidationSummary()<br />
+    <div class="sectionLabel defaultText">Access Type</div>
+    <br /><br />
+    <table class="control">
+        <tr>
+            <td class="controlLabel">Edit</td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ListSecurityType.Edit)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+        <tr>
+            <td class="controlLabel">View</td>
+            <td class="controlItem"><span data-value="@((int)Lists.Models.Data.ListSecurityType.View)" class="icon-radio-unchecked radio"></span></td>
+        </tr>
+    </table>
+    @Html.HiddenFor(x => x.AccessType)
+    @Html.HiddenFor(x => x.PersonId)
+    @Html.HiddenFor(x => x.ListId)
+    <br />
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Request</button>
+        <button type="button" class="button cancelButton">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+
+        $(".radio").click(function () {
+            $(".radio").removeClass("icon-radio-checked").addClass("icon-radio-unchecked");
+            $(this).addClass("icon-radio-checked").removeClass("icon-radio-unchecked");
+            $("#AccessType").val($(this).attr("data-value"));
+        });
+
+    });
+
+    $(".cancelButton").click(function () {
+        window.location.href = "@Url.Action("EditListSecurity", "Lists", new { id = Model.ListId })";
+    });
+</script>

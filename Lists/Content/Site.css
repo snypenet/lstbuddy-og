@@ -1,0 +1,893 @@
+﻿.main-section {
+    min-height:100vh;
+}
+.dataViewWrapper {
+    width:90%;
+    display:block;
+    margin:auto;
+}
+.dataView {
+    width:100%;
+}
+.dataViewRow {
+    width:100%;
+    height:30px;
+    line-height:30px;
+    border-bottom:1px solid #fff;
+}
+.dataLabel, .dataValue {
+    text-align:center;
+    background-color:#fff;
+    width:50%;
+}
+.dataLabel {
+    font-weight:bold;
+    background-color:#4e4e4e;
+    color:#fff;
+    border-bottom:1px solid #fff;
+}
+.dataValue {
+    border-bottom:1px solid #4e4e4e;
+}
+/*Grid Auth Styles start*/
+.gridAuthContainer {
+    width:100%;
+    height:100%;
+}
+.gridAuthContainer table {
+    border-collapse:collapse;
+    min-width:50px;
+    background-color:#fff;
+    margin: 0 auto;
+}
+
+.gridAuthContainer table tr{
+	width:200px;
+	height:50px;
+    border:1px solid #000;
+}
+
+.gridAuthContainer table tr td{
+	width:50px;
+	height:50px;
+	border:1px solid #000;
+	text-align:center;
+
+}
+.gridCellSelected{
+	cursor:pointer;
+}
+.gridAuthContainer table tr td:hover{
+	background-color:#D0d0d0;
+	cursor:pointer;
+}
+
+/*Grid Auth Styles end*/
+body {
+    background-color:#eae8e8
+}
+.tab-bar {
+    background-color:#4e4e4e;
+    border-bottom:1px solid #000;
+}
+.listItems,.listTitle, .listOwner, .listExpiration, .listNames, .listSecurity, .quickAddItems {
+    width:400px;
+    margin:auto;
+    display:block;
+}
+
+.prosAndConsListItems {
+    width:49%;
+    margin:auto;
+}
+
+.prosAndConsListItemsFocused {
+    width:70%;
+    margin:auto;
+}
+
+.listItemComments {
+    width:90%;
+    margin:auto;
+    display:block;
+}
+
+
+.prayerRequestList{
+}
+
+.birthdayList {
+}
+
+.christmasList {
+}
+
+.toDoList {     
+}
+
+.groceryList {
+}
+
+.prosAndConsList {
+}
+
+.listItem, .listName, .listSecurityItem, .listSecurityItemRequest, .quickAddItem {
+    background-color:#fff;
+    width: 100%;
+    min-height: 50px;
+    overflow-y: auto;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #4e4e4e;
+}
+.listSecurityItemRequest {
+    opacity:0.7;
+}
+.listItemComment, .NewComment {
+    width:100%;
+    min-height:50px;
+    overflow-y: auto;
+    padding: 5px;
+    background-color: #97d5f1;
+    border-radius:5px;
+    margin-bottom:5px;
+    box-shadow:#4e4e4e 1px 1px 1px;
+}
+.commentWhisper {
+    background-color:#c17efc;
+}
+.listNameContent, .quickAddItemName {
+    font-size:1.5em;
+    word-wrap:break-word;
+    width:65%;
+    display:inline-block;
+    vertical-align:top;
+}
+.listItemContent {
+    width:100%;
+    font-size:1em;
+    word-wrap:break-word;
+}
+.listNameContent:hover {
+    cursor:pointer;
+    color:#4e4e4e;
+}
+.listTitle {
+    font-weight:bold;
+    font-size:1.6em;
+}
+.textarea {
+    width:50%;
+    margin:auto;
+    min-height:100px;
+}
+.listTitle, .listOwner, .listExpiration  {
+    text-align:center;
+}
+.defaultText {
+    color:#fff;
+    text-shadow:1px 1px 1px #000;
+}
+.page{
+    background-color:#51A5BA;
+    padding-right:20px;
+    padding-left:20px;
+    padding-top:5px;
+    padding-bottom:5px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:100px;
+    display:block;
+    width:700px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    min-height:100px;
+    overflow-y:auto;
+    word-wrap:break-word;
+    position:relative;
+}
+
+#loadingContainer {
+    display:none;
+    position:fixed;
+    width:35px;
+    height:35px;
+    z-index:10000;
+    margin:auto;
+    background-color:#fff;
+    border-radius:10px;
+    opacity:0.5;
+    left:48.7%;
+    top:50px;
+}
+#connectionCheckContainer {
+    display:block;
+    position:fixed;
+    width:100px;
+    height:25px;
+    line-height:25px;
+    z-index:9999;
+    margin:auto;
+    background-color:#fff;
+    left:46%;
+    top:50px;
+    text-align:center;
+    opacity:0.5;
+}
+.validation-summary-errors ul {
+    list-style:none;
+}
+.validation-summary-errors, .error {
+    color:#f12626;
+    font-weight:bold;
+    text-align:center;
+}
+
+.pageSuccess {
+    text-align:center;
+    width:100%;
+    color:#fff;
+}
+.pageError {
+    text-align:center;
+    width:100%;
+    color:#f00;
+}
+#loadingContainer img {
+    width:20px;
+    margin:auto;
+    display:block;
+    margin-top:22%;
+    position:relative;
+}
+form .text {
+    width:200px;
+    display:block;
+    margin:auto;
+}
+
+input.newComment {
+    width:100%;
+}
+
+form .dropdown {
+    width:200px;
+    display:block;
+    margin:auto;
+}
+form {
+    width:400px;
+    display:block;
+    margin:auto;
+}
+form a, .singleAnchor {
+    display:block;
+    width:100%;
+    text-align:center;
+    text-decoration:none;
+    color:#4e4e4e;
+}
+form a:hover, .singleAnchor:hover {
+    color:#000;
+}
+
+.externalProducts {
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    width:90%;
+    display:none;
+}
+.externalProduct {
+    background-color:#D0d0d0;
+    padding:10px;
+    text-align:center;
+    display:block;
+    margin-bottom:5px;
+    width:95%;
+    border-radius:5px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.commentDeleteAnchor:hover {
+    opacity:1.0;
+    color:#000;
+}
+
+.commentDeleteAnchor {
+    opacity:0.5;
+    text-decoration:none;
+    color:#000;
+    font-size:.8em;
+    font-weight:bold;
+    float:right;
+    position:relative;
+    z-index:10000;
+}
+.buttons {
+    text-align:center;
+}
+.button, .smallButton {
+    background-color:#4e4e4e;
+    color:#fff;
+}
+.buttons .button {
+    display:inline-block;
+}
+.buttonLoad {
+    width:20px;
+}
+.searchContainer {
+    width:100%;
+    display:block;
+    margin:auto;
+    text-align:center;
+}
+.searchContainer .text {
+    width:75%;
+    display:inline-block;
+}
+.searchContainer .button {
+    width:20%;
+    display:inline-block;
+}
+.smallButton {
+    padding:6px 8px;
+}
+
+img.refreshicon {
+    width:50px;
+    margin:auto;
+    display:block;
+    opacity:0.5;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+img.refreshicon:hover {
+    opacity:1.0;
+    cursor:pointer;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+.groceryListTotal, .prosAndConsResult {
+    width:100%;
+    padding:10px;
+    text-align:center;
+}
+
+.listItemInfo, .listNameInfo, .quickAddItemActions {
+    position:relative;
+}
+.listItemCost, .listItemQuantity {
+    width: 150px;
+    float:left;
+}
+.informationSiteMessageGroup, .announcementSiteMessageGroup, .warningSiteMessageGroup {
+    display:none;
+    padding:5px;
+    border:1px solid #4e4e4e;
+}
+.informationSiteMessageGroup {
+    background-color:#97d5f1;
+}
+.warningSiteMessageGroup {
+    background-color:#f39337;
+}
+.announcementSiteMessageGroup {
+    background-color:#ffd800;
+}
+.messagesTitle {
+    opacity:0.7;
+    margin-bottom:3px;
+    margin-top:3px;
+}
+.messagesTitle:hover {
+    opacity:1;
+    cursor:pointer;
+}
+.siteMessages {
+    width:100%;
+    background-color:#fff;
+    min-height:20px;
+    overflow:auto;
+    margin-top:-4px;
+    padding:5px;
+    box-shadow:#4e4e4e 2px 2px 5px;
+}
+
+.listItemAction:hover, .listNameAction:hover {
+    cursor:pointer;
+    opacity:1.0;
+}
+
+.listItemAction, .listNameAction {
+    float:right;
+    margin-right:10px;
+    opacity:0.5;
+}
+
+.listItemShortcutAction {
+    display:block;
+    opacity:0.5;
+    margin-bottom:15px;
+}
+.listItemShortcutAction:hover {
+    opacity:1.0;
+    cursor:pointer;
+}
+.textLeft {
+    text-align:right;
+}
+.textRight {
+    text-align:left;
+}
+.actionCount {
+    float:right;
+    margin-right:10px;
+    opacity:0.5;
+}
+.actionCount:hover {
+    opacity:1.0;
+}
+
+.listItemActionLink, .listNameActionLink {
+    font-weight:bold;
+}
+
+.editListItem, .editListName, .editListSecurity {
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:40px;
+    display:block;
+    background-color:#D0d0d0;
+}
+
+.editListItem form, .editListName form, .editListSecurity form, .NewComment form {
+    width:90%;
+    padding-top:10px;
+}
+.editListItem .buttons, .editListName .buttons, .editListSecurity .buttons, .NewComment .buttons {
+    width:100%;
+    display:block;
+}
+.backLink {
+    width:100%;
+    text-align:left;
+    text-decoration:none;
+    opacity:0.7;
+    font-size:1.2em;
+}
+
+.arrow_box_top {
+	position: relative;
+	background: #24d55f;
+}
+.arrow_box_top:after {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: "attr(data-popup)";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(36, 213, 95, 0);
+	border-bottom-color: #24d55f;
+	border-width: 30px;
+	margin-left: -30px;
+}
+
+.backLink:hover {
+    cursor:pointer;
+    opacity:1.0;
+}
+.listNameTags, .commentInformation, .controlDescription {
+    margin-top:5px;
+    font-size:.75em;
+    opacity:0.7;
+}
+
+.controlDescription {
+    margin-top:0px;
+    display:block;
+    width:100%;
+    text-align:center;
+}
+.header-logo {
+    height:30px;
+}
+
+.hidden {
+    display:none;
+}
+
+.main-logo {
+    height:100px;
+}
+
+.searchResultsContainer {
+    background-color:#fff;
+    width:200px;
+    min-height:50px;
+    max-height:200px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    z-index:1000;
+    position:absolute;
+    margin-left:100px;
+    margin-top:-15px;
+    box-shadow:#4e4e4e 2px 2px 5px;
+}
+.sectionLabel, .pageTitle, .siteTitle {
+    width:100%;
+    text-align:center;
+    font-size:1.5em;
+}
+.smallSectionLabel {
+    width:100%;
+    text-align:center;
+    font-size:1.1em;
+}
+.siteTitle {
+    color:#fff;
+    font-weight:bold;
+    font-size:2.5em;
+}
+.control {
+    width:90%;
+    display:block;
+    margin:auto;
+    text-align:center;
+}
+.controlLabel, .controlItem {
+    width:150px;
+}
+.controlLabel {
+    text-align:right;
+}
+.controlItem {
+    text-align:left;
+}
+.personSearchResult {
+    padding:5px;
+    font-weight:bold;
+}
+
+.purchasedListItem {
+    text-decoration:line-through;
+    opacity:0.5;
+}
+
+.personSearchResult:hover {
+    color:#fff;
+    background-color:#0094ff;
+    cursor:pointer;
+}
+
+.left {
+    float:left;
+}
+.right {
+    float:right;
+}
+.proConWrapper {
+    height: auto;
+    position:relative;
+    width:100%;
+    margin:auto;
+}
+.button, .smallButton {
+    background-color:#4e4e4e;
+    color:#fff;
+}
+@font-face {
+	font-family: 'icomoon';
+	src:url('/fonts/icomoon.eot?jikgk');
+	src:url('/fonts/icomoon.eot?#iefixjikgk') format('embedded-opentype'),
+		url('/fonts/icomoon.woff?jikgk') format('woff'),
+		url('/fonts/icomoon.ttf?jikgk') format('truetype'),
+		url('/fonts/icomoon.svg?jikgk#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-scale:before {
+	content: "\e611";
+}
+.icon-uniE60B:before {
+	content: "\e60b";
+}
+.icon-pencil:before {
+	content: "\e600";
+}
+.icon-bullhorn:before {
+	content: "\e608";
+}
+.icon-cart:before {
+	content: "\e60c";
+}
+.icon-print:before {
+	content: "\e61c";
+}
+.icon-bubble:before {
+	content: "\e602";
+}
+.icon-lock:before {
+	content: "\e603";
+}
+.icon-gift:before {
+	content: "\e60d";
+}
+.icon-remove:before {
+	content: "\e601";
+}
+.icon-thumbs-up:before {
+	content: "\e618";
+}
+.icon-thumbs-down:before {
+	content: "\e619";
+}
+.icon-smiley:before {
+	content: "\e612";
+}
+.icon-sad:before {
+	content: "\e613";
+}
+.icon-confused:before {
+	content: "\e614";
+}
+.icon-notification:before {
+	content: "\e609";
+}
+.icon-question:before {
+	content: "\e60e";
+}
+.icon-info:before {
+	content: "\e60a";
+}
+.icon-plus:before {
+	content: "\e607";
+}
+.icon-arrow-up:before {
+	content: "\e61a";
+}
+.icon-arrow-down:before {
+	content: "\e61b";
+}
+.icon-arrow-right:before {
+	content: "\e615";
+}
+.icon-arrow-left:before {
+	content: "\e616";
+}
+.icon-arrow-left2:before {
+	content: "\e606";
+}
+.icon-checkbox-checked:before {
+	content: "\e604";
+}
+.icon-checkbox-unchecked:before {
+	content: "\e605";
+}
+.icon-radio-checked:before {
+	content: "\e60f";
+}
+.icon-radio-unchecked:before {
+	content: "\e610";
+}
+.icon-facebook:before {
+	content: "\e617";
+}
+
+.pagerButton {
+    text-align:center;
+    background-color:#fff;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+    border-radius:5px;
+    box-shadow: 1px 1px 1px #4e4e4e;
+    color:#4e4e4e;
+}
+.pagerButton:hover {
+    cursor:pointer;
+    color:#000;
+}
+.socialShare {
+    width:80%;
+    margin:auto;
+}
+.socialButton {
+    width:100%;
+    text-align:center;
+}
+.socialIcon {
+    opacity:0.5;
+    color:#4e4e4e;
+    font-size:40px;
+}
+.socialIcon:hover {
+    opacity:1.0;
+    cursor:pointer;
+}
+
+
+.radio {
+    opacity:0.6;
+}
+
+
+@font-face {
+	font-family: "Flaticon";
+	src: url("/fonts/flaticon.eot");
+	src: url("/fonts/flaticon.eot#iefix") format("embedded-opentype"),
+	url("/fonts/flaticon.woff") format("woff"),
+	url("/fonts/flaticon.ttf") format("truetype"),
+	url("/fonts/flaticon.svg") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+        font-size: 50px;
+font-style: normal;
+margin-left: 20px;
+}
+.flaticon-christmas15:before {
+	content: "\e000";
+}
+.flaticon-church7:before {
+	content: "\e001";
+}
+.flaticon-present8:before {
+	content: "\e002";
+}
+.flaticon-shopping66:before {
+	content: "\e003";
+}
+.flaticon-task:before {
+	content: "\e004";
+}
+
+.successConnection, .errorConnection, .informationConnection {
+    color:#000;
+}
+.successConnection {
+    background-color:#0eaa1b;
+}
+.errorConnection {
+    background-color:#f00;
+}
+.informationConnection {
+    background-color:#0094ff;
+}
+.expiredList, .deletedList, .deletedItem {
+    opacity:0.8;
+}
+.warningMessage {
+    color:#f00;
+}
+.centerText {
+    text-align:center;
+    width:100%;
+}
+.center {
+    display:block;
+    margin:auto;
+}
+.listIcon {
+    opacity:0.5;
+    float:right;
+    padding-bottom:5px;
+    font-size:50px;
+}
+.proConResultIcon {
+    font-size:50px;
+    opacity:0.7;
+}
+.item-action-undelete, .list-action-undelete, .security-action-undelete {
+    font-weight:bold;
+}
+@media only screen and (max-width: 700px)  {
+    .searchContainer .text {
+        width:100%;
+        display:block;
+    }
+    .searchContainer .button {
+        width:30%;
+        display:block;
+        margin:auto;
+    }
+    .textarea {
+        width:90%;
+    }
+    .socialShare {
+        width:90%;
+    }
+    .prosAndConsListItemsFocused {
+        width:100%;
+    }
+    body {
+        background-color:#51A5BA;
+    }
+    div.page {
+        width:100%;
+        margin-bottom:0;
+        padding-bottom:0;
+    }
+    #mainTitle {
+        display:none;
+    }
+    [class^="icon-"], [class*=" icon-"] {   
+            font-size: 20px;
+    }
+    .listIcon {
+        font-size:50px;
+    }
+    
+    .proConResultIcon {
+        font-size:50px;
+    }
+    .listItems, .listTitle, .listOwner, .listExpiration, .listNames, .listSecurity, .listItem, .listItemComments, .quickAddItems {
+        width:100%;
+    }
+    form .text, form .dropdown, form {
+        width:100%;
+    }
+    .editListItem, .editListName, .editListSecurity {
+        margin-top:35px;
+    }
+    .listItemCost, .listItemQuantity {
+        width: 100px;
+    }
+    .searchResultsContainer {
+        width:94%;
+        margin-left:0px;
+    }
+    
+    .socialIcon {
+        font-size:40px;
+    }
+}
+
+
+@media only screen and (max-width: 500px) {
+    .searchContainer .button {
+        width:50%;
+    }
+    .control {
+        width:90%;
+    }
+
+    .listItemCost, .listItemQuantity {
+        width: 85px;
+    }
+    .searchResultsContainer {
+        width:89%;
+    }
+}

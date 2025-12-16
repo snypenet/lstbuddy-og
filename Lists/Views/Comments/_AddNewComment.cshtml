@@ -1,0 +1,27 @@
+﻿@model Lists.Models.View.NewComment
+@{
+    var list = new Lists.Models.Data.List(new Lists.Models.Data.ListItem(Model.ListItemId).ListId);
+    var user = (Lists.Models.Data.Person)ViewBag.CurrentUser;
+}
+@using (Ajax.BeginForm("Add", "Comments", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleAddCommentsOnSuccess"
+}))
+{
+    @Html.ValidationSummary()
+    if (user.Id != list.Owner.Id && !list.Editors.Contains(user.Id) && !user.IsGuest)
+    {
+        <div class="smallSectionLabel">
+            Whisper:&nbsp;@Html.CheckBoxFor(x => x.IsWhisper, new { @class = "checkbox" })
+        </div>
+        <div class="controlDescription">
+            Whispering prevents the list owner from seeing this comment.
+        </div>
+        <br />
+    }
+    @Html.TextBoxFor(x => x.CommentText, new { @class = "text newComment", placeholder = "Add a Comment..." })<br />
+    @Html.HiddenFor(x => x.ListItemId)
+    @Html.HiddenFor(x => x.IsParial)
+    <button type="submit" class="button hidden submitButton">Save</button>
+}

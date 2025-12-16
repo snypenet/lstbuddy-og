@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Forgot Pattern - Lst Buddy";
+}
+
+    <br />
+    <div class="pageTitle defaultText">Forgot Pattern</div>
+    <div id="forgotPattern">
+        @Html.Partial("_ForgotPattern", new Lists.Models.View.ForgotPattern())
+    </div>
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            window.location.href = data;
+        } else {
+            $("#forgotPattern").html(data);
+        }
+    }
+</script>

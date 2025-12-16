@@ -1,0 +1,177 @@
+﻿@model Lists.Models.Data.ListItemContainer
+@{
+    var list = new Lists.Models.Data.List(Model.ListId);
+    var user = (Lists.Models.Data.Person)ViewBag.CurrentUser;
+    var salesTax = ViewBag.SalesTax as Lists.Models.Data.IpAddressSalesTax;
+    decimal salesTaxRate = decimal.Round(salesTax == null || salesTax.EntryId == 0 || !salesTax.SalesTax.HasValue ? 7.00M : salesTax.SalesTax.Value * 100, 3);
+}
+<br />
+@if (Model != null && Model.Items.Any())
+{
+    <div class="groceryListTotal defaultText">
+        SubTotal: @((Model.Items.Sum(x => x.Price * (x.Quantity.HasValue ? x.Quantity.Value : 0)).Value).ToString("C"))<br />
+        Tax Rate: @(salesTaxRate.ToString() + "%")<br />
+        Tax: @((Model.Items.Sum(x => x.Price * (x.Quantity.HasValue ? x.Quantity.Value : 0)).Value * (salesTaxRate / 100)).ToString("C"))<br /><br />
+        Total: @((Model.Items.Sum(x => x.Price * (x.Quantity.HasValue ? x.Quantity.Value : 0)).Value * ((salesTaxRate / 100) + 1)).ToString("C"))
+    </div>
+    foreach (var item in Model.Items.OrderBy(x => x.CreatedOn))
+    {
+        <div class="listItem" data-item-id="@item.Id">
+            @if (item.Purchased.HasValue && item.Purchased.Value)
+            {
+                <div class="listItemContent purchasedListItem">
+                @item.Text
+                @if (item.Url != null)
+                {
+                    <br />
+                    <a href="@Html.Raw(item.Url)" target="_blank">More Information</a>
+                }
+                </div>
+            }
+            else
+            {
+                <div class="listItemContent">
+                    @if (item.Url != null)
+                    {
+                        <a href="@Html.Raw(item.Url)" target="_blank">@item.Text</a>
+                    }
+                    else
+                    {
+                        @item.Text
+                    }
+                </div>
+            }
+            
+            @if(item.AmazonItems.Any())
+            {
+                <br />
+                <strong><a class="singleAnchor" onclick="toggleAmazonItems(this, @item.Id)">Show Related Products</a></strong>
+                <div class="externalProducts" data-item-products="@item.Id">
+                    @foreach (var amazonItem in item.AmazonItems)
+                    {
+                        <div class="externalProduct"><a href="@Html.Raw(amazonItem.Link)" target="_blank">@(amazonItem.Name.Length > 30 ? amazonItem.Name.Remove(29) : amazonItem.Name)</a></div>
+                    }
+                </div>
+            }
+
+            <br />
+            <div class="listItemInfo">
+                <div class="listItemCost">Cost: @(item.Price.HasValue ? item.Price.Value.ToString("C") : "0.00")</div>
+                <div class="listItemQuantity">Quantity: @(item.Quantity.HasValue ? item.Quantity.Value.ToString() : "0")</div>
+                @if ((user.Id == list.Owner.Id ||
+                list.Editors.Contains(user.Id)) && !list.IsExpired && !user.IsGuest)
+                {
+                    <span class="listItemAction icon-remove"></span>
+                    <span class="listItemAction icon-pencil"></span>
+                    <span class="listItemAction item-action-undelete hidden">Undo</span>
+                    if (item.Purchased.HasValue && item.Purchased.Value)
+                    {
+                        <span class="listItemAction icon-checkbox-checked" onclick="processCheckUnCheck(this)"></span>
+                    }
+                    else
+                    {
+                        <span class="listItemAction icon-checkbox-unchecked" onclick="processCheckUnCheck(this)"></span>
+                    }
+                }
+            </div>
+        </div>
+    }
+}
+else
+{
+    <br />
+    <div class="defaultText">No grocery items found :(</div>
+}
+<br />
+<script type="text/javascript">
+    $(function () {
+        $(".icon-remove").click(function () {
+            showLoader();
+            $(this).closest(".listItem").addClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").removeClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".item-action-undelete").click(function () {
+            showLoader();
+            $(this).closest(".listItem").removeClass("deletedItem");
+            $(this).closest(".listItem").find(".item-action-undelete").addClass("hidden");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UnDeleteListItem", "Lists", new { id = "LIST_ITEM_ID" })".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id")),
+                success: function (data, textStatus, jqXHR) {
+                    hideLoader();
+                }
+            });
+        });
+
+        $(".icon-pencil").click(function () {
+            $(".editListItem").remove();
+            $(this).closest(".listItem")
+                   .append($("<div></div>").addClass("editListItem")
+                                      .attr("id", "listItemEdit")
+                                      .load("@Html.Raw(Url.Action("Edit", "Lists", new { id = "LIST_ITEM_ID", type = Lists.Models.Data.ListItemType.Grocery }))".replace("LIST_ITEM_ID", $(this).closest(".listItem").attr("data-item-id"))));
+        });
+
+    });
+
+    function processCheckUnCheck(context) {
+        var markedOff = $(context).attr("class").indexOf("icon-checkbox-checked") > -1;
+
+        if (markedOff) {
+            $(context).removeClass("icon-checkbox-checked")
+                      .addClass("icon-checkbox-unchecked")
+                      .closest(".listItem")
+                      .find(".listItemContent")
+                      .removeClass("purchasedListItem");
+        } else {
+            $(context).removeClass("icon-checkbox-unchecked")
+                      .addClass("icon-checkbox-checked")
+                      .closest(".listItem")
+                      .find(".listItemContent")
+                      .addClass("purchasedListItem");
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ProcessGroceryListMarkOff", "Lists", new { id = "ID", markOff = "MARK_OFF", })".replace("MARK_OFF", !markedOff).replace("ID", $(context).closest(".listItem").attr("data-item-id")),
+            success: function (data, textStatus, jqXHR) {}
+        });
+    }
+
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#groceryListItems").html(data).promise().done(function () {
+                clearForm("#listItemAdd form");
+            });
+        } else {
+            $("#listItemAdd").html(data);
+        }
+    }
+    
+    function handleEditOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#groceryListItems").html(data);
+        } else {
+            $("#listItemEdit").html(data);
+        }
+    }
+
+    function toggleAmazonItems(context, itemId) {
+        if ($("[data-item-products=" + itemId + "]").is(":visible")) {
+            $("[data-item-products=" + itemId + "]").hide();
+            $(context).html("Show Related Products");
+        } else {
+            $("[data-item-products=" + itemId + "]").show();
+            $(context).html("Hide Related Products");
+        }
+    }
+</script>

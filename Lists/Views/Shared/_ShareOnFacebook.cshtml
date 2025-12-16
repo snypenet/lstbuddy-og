@@ -1,0 +1,66 @@
+﻿@model string
+@{
+    string body = string.Format("Check out my list at http://www.lstbuddy.com/Lists/Shared/{0}", Model);
+}
+<div class="socialShare">
+    <br>
+    <div class="socialBody hidden">
+        <div id="socialMessage"></div>
+        <textarea id="facebookBody" class="textarea">@body</textarea>
+        <br />
+        <div class="buttons">
+            <button class="smallButton" onclick="shareCurrentList()">Submit</button>
+            <button class="smallButton" onclick="cancelShare()">Cancel</button>
+        </div>
+    </div>
+    <div class="socialButton">
+        <span class="icon-facebook socialIcon"></span>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".icon-facebook").click(function () {
+        $(this).addClass("hidden");
+        $(".socialBody").removeClass("hidden");
+    });
+
+    function cancelShare() {
+        $(".icon-facebook").removeClass("hidden");
+        $(".socialBody").addClass("hidden");
+    }
+
+    function shareCurrentList() {
+        showLoader();
+        var body = $("#facebookBody").val();
+        var loginToken;
+        FB.login(function (response) {
+            if (response.authResponse) {
+                loginToken = response.authResponse.accessToken;
+                FB.api('/me/feed', 'post',
+                    {
+                        message: body,
+                        accessToken: loginToken
+                    },
+                    function (response) {
+                        hideLoader();
+                        if (!response || response.error) {
+                            $("#socialMessage").html("An unexpected error occurred")
+                                               .removeClass("pageSuccess")
+                                               .addClass("pageError")
+                                               .delay(1000)
+                                               .fadeOut(1000);
+                            console.error(response.error.message);
+                        } else {
+                            $("#socialMessage").html("Success").removeClass("pageError").addClass("pageSuccess").delay(1000).fadeOut(1000, function(){
+                                cancelShare();
+                            });
+                            console.log('Post ID: ' + response.id);
+                        }
+                });
+            } else {
+                hideLoader();
+                $("#socialMessage").html("Did not fully authorize, retry later").removeClass("pageError").addClass("pageSuccess").delay(1000).fadeOut(1000);
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, { scope: 'publish_actions' });
+    }
+</script>

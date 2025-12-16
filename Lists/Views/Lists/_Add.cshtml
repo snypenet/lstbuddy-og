@@ -1,0 +1,76 @@
+﻿@model Lists.Models.View.NewList
+
+@using (Ajax.BeginForm("Save", new AjaxOptions()
+{
+    OnBegin = "showLoader()",
+    OnSuccess = "handleOnSuccess"
+}))
+{
+    @Html.ValidationSummary()<br />
+    @Html.TextBoxFor(x => x.Name, new { @class = "text", placeholder = "Name" })<br />
+    @Html.DropDownListFor(x => x.ListType, ViewBag.ListTypes as SelectList, "List Types", new { @class = "dropdown" })<br />
+    @Html.TextBoxFor(x => x.ExpiresOn, new { @class = "text", @readonly = "readonly", placeholder = "Expires On" })<br />
+    <a onclick="$('#ExpiresOn').val('')">Clear</a><br />
+    if (!((Lists.Models.Data.Person)ViewBag.CurrentUser).IsGuest)
+    {
+        <div class="sectionLabel">
+            Public<br />
+            @Html.CheckBoxFor(x => x.IsPublic)
+        </div>
+        <div class="controlDescription">This marks the list as visible to<br /> anyone not just the people you know.</div>
+        <br />
+        <div class="sectionLabel">
+            Private<br />
+            @Html.CheckBoxFor(x => x.IsPrivate)
+        </div>
+        <div class="controlDescription">This marks the list as visible only to <br /> and anyone else you grant access</div>
+        <br />
+        <div id="autoPopulateControl" class="hidden">
+            <div class="sectionLabel">
+                Auto Populate List<br />
+                @Html.CheckBoxFor(x => x.AutoPopulate)
+            </div>
+            <div class="controlDescription">This tells us to build your grocery list for you</div>
+            <br />
+        </div>
+    }
+
+    <div class="buttons">
+        <button type="submit" class="button submitButton">Save</button>
+        <button type="button" class="button clearButton" onclick="clearForm(this)">Clear</button>
+        <button type="button" class="button cancelButton">Cancel</button>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        $("#ExpiresOn").datetimepicker({
+            minDate: '0',
+            format: 'm/d/Y',
+            lang: 'en',
+            timepicker: false
+        });
+        $("#ListType").change(function () {
+            if ($(this).val() == "10003") {
+                $("#autoPopulateControl").show();
+            } else {
+                $("#autoPopulateControl").hide();
+            }
+        });
+
+        $(".cancelButton").click(function () {
+            window.location.href = "@Url.Action("Index", "Lists")";
+        });
+
+        $("#IsPrivate").click(function () {
+            if ($("#IsPublic").is(":checked")) {
+                $("#IsPublic").click();
+            }
+        });
+
+        $("#IsPublic").click(function () {
+            if ($("#IsPrivate").is(":checked")) {
+                $("#IsPrivate").click();
+            }
+        });
+    });
+</script>

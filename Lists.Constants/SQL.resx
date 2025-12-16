@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DeleteAttachmentById" xml:space="preserve">
+    <value>UPDATE attachment SET deleted = 1 WHERE attachment_id = @attachment_id;</value>
+  </data>
+  <data name="DeleteAttachmentDataById" xml:space="preserve">
+    <value>UPDATE attachment_data SET deleted = 1 WHERE attachment_data_id = @attachment_data_id;</value>
+  </data>
+  <data name="DeleteListById" xml:space="preserve">
+    <value>UPDATE lists_new SET deleted = 1 WHERE list_id = @list_id</value>
+  </data>
+  <data name="DeleteListItemById" xml:space="preserve">
+    <value>UPDATE list_items SET deleted = 1 WHERE list_item_id = @list_item_id</value>
+  </data>
+  <data name="DeletePersonById" xml:space="preserve">
+    <value>UPDATE persons SET deleted = 1 WHERE person_id = @person_id</value>
+  </data>
+  <data name="DoesUsernameExist" xml:space="preserve">
+    <value>SELECT COUNT(*) FROM persons WHERE username = @username</value>
+  </data>
+  <data name="GetAllListTypes" xml:space="preserve">
+    <value>SELECT * FROM list_types</value>
+  </data>
+  <data name="GetAttachmentById" xml:space="preserve">
+    <value>SELECT * FROM attachments WHERE attachment_id = @attachment_id AND deleted = 0</value>
+  </data>
+  <data name="GetAttachmentDataById" xml:space="preserve">
+    <value>SELECT * FROM attachment_data WHERE attachment_data_id = @attachment_data_id</value>
+  </data>
+  <data name="GetAttachmentsByListItemId" xml:space="preserve">
+    <value>SELECT * FROM  attachments WHERE list_item_id = @list_item_id AND deleted = 0</value>
+  </data>
+  <data name="GetCellPhoneProviderById" xml:space="preserve">
+    <value>SELECT * FROM cell_phone_providers WHERE provider_id = @provider_id</value>
+  </data>
+  <data name="GetCellPhoneProviders" xml:space="preserve">
+    <value>SELECT * FROM cell_phone_providers</value>
+  </data>
+  <data name="GetCommentById" xml:space="preserve">
+    <value>SELECT * FROM comments WHERE comment_id = @comment_id and deleted = 0</value>
+  </data>
+  <data name="GetCommentsByListItemId" xml:space="preserve">
+    <value>SELECT * FROM comments WHERE list_item_id = @list_item_id and deleted = 0</value>
+  </data>
+  <data name="GetListById" xml:space="preserve">
+    <value>SELECT * FROM lists_new WHERE list_id = @list_id AND deleted = 0</value>
+  </data>
+  <data name="GetListEditorsByListId" xml:space="preserve">
+    <value>SELECT editor_id FROM list_editors WHERE list_id = @list_id</value>
+  </data>
+  <data name="GetListItemById" xml:space="preserve">
+    <value>SELECT * FROM list_items WHERE list_item_id = @list_item_id AND deleted = 0</value>
+  </data>
+  <data name="GetListItemClaimersByListItemId" xml:space="preserve">
+    <value>SELECT person_id FROM list_item_claimed_by WHERE list_item_id = @list_item_id</value>
+  </data>
+  <data name="GetListItemsByListId" xml:space="preserve">
+    <value>SELECT * FROM list_items WHERE list_id = @list_id AND deleted = 0</value>
+  </data>
+  <data name="GetListsByOwnerId" xml:space="preserve">
+    <value>SELECT * FROM lists_new WHERE owner_id = @person_id and deleted = 0</value>
+  </data>
+  <data name="GetListsViewsByPersonId" xml:space="preserve">
+    <value>SELECT distinct l.* FROM lists_new l JOIN list_viewers lv on lv.list_id = l.list_id WHERE (lv.person_id = @person_id OR l.owner_id = @person_id) AND l.deleted = 0</value>
+  </data>
+  <data name="GetListTypeById" xml:space="preserve">
+    <value>SELECT * FROM list_types WHERE list_type_id = @list_type_id</value>
+  </data>
+  <data name="GetPersonById" xml:space="preserve">
+    <value>SELECT * FROM persons WHERE person_id = @person_id</value>
+  </data>
+  <data name="GetPersonByUsernameAndPattern" xml:space="preserve">
+    <value>SELECT p.* FROM persons p JOIN person_pattern pp ON pp.person_id = p.person_id AND pp.pattern = @pattern WHERE p.username= @username</value>
+  </data>
+  <data name="GetPersonContactInfoByPersonId" xml:space="preserve">
+    <value>SELECT * FROM person_contact_information ci LEFT JOIN cell_phone_providers cpp ON ci.cell_phone_provider = cpp.provider_id WHERE ci.person_id = @person_id</value>
+  </data>
+  <data name="SaveAttachment" xml:space="preserve">
+    <value>INSERT INTO attachments VALUES (@attachment_type, @attachment_description, @attachment_data_id, @list_item_id, 0);SELECT attachment_id FROM attachments WHERE attachment_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="SaveAttachmentData" xml:space="preserve">
+    <value>INSERT INTO attachment_data VALUES (@attachment_data, @attachment_data_mime);SELECT attachment_data_id FROM attachment_data WHERE attachment_data_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="SaveComment" xml:space="preserve">
+    <value>INSERT INTO comments VALUES (@text, @created_by, @list_item_id, @created_on, 0, @is_whisper); SELECT comment_id FROM comments WHERE comment_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="SaveContactInformation" xml:space="preserve">
+    <value>INSERT INTO person_contact_information VALUES (@person_id, @email, @cell_phone_number, @cell_phone_provider);</value>
+  </data>
+  <data name="SaveCredentials" xml:space="preserve">
+    <value>INSERT INTO person_pattern VALUES ((SELECT person_id FROM persons WHERE username = @username), @pattern)</value>
+  </data>
+  <data name="SaveList" xml:space="preserve">
+    <value>INSERT INTO lists_new VALUES (@list_name, @list_type, 0, @created_on, @created_by, @owner_id, @expires_on, @is_public, @share_id, @is_private);SELECT list_id FROM lists_new WHERE list_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="SaveListItem" xml:space="preserve">
+    <value>INSERT INTO list_items VALUES(@list_id, @list_item_content, @created_on, 0, @created_by, @last_modified_on, @last_modified_by, @grocery_price, @quantity, @purchased, @prayer_count, @url, @pro_con_type, @pro_con_weight); SELECT list_item_id FROM list_items WHERE list_item_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="SavePerson" xml:space="preserve">
+    <value>INSERT INTO persons VALUES (@f_name, @m_name, @l_name, @username, 0, @is_guest, 0); SELECT person_id FROM persons WHERE person_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="UpdateAttachmentById" xml:space="preserve">
+    <value>UPDATE attachments SET attachment_type = @attachment_type, attachment_description = @attachment_description, attachment_data_id = @attachment_data_id, list_item_id = @list_item_id WHERE attachment_id = @attachment_id;</value>
+  </data>
+  <data name="UpdateAttachmentDataById" xml:space="preserve">
+    <value>UPDATE attachment_data SET attachment_data = @attachment_data, attachment_data_mime = @attachment_data_mime WHERE attachment_data_id = @attachment_data_id;</value>
+  </data>
+  <data name="UpdateContactInformationByPersonId" xml:space="preserve">
+    <value>UPDATE person_contact_information SET email = @email, cell_phone_number = @cell_phone_number, cell_phone_provider = @cell_phone_provider WHERE person_id = @person_id</value>
+  </data>
+  <data name="UpdateListById" xml:space="preserve">
+    <value>UPDATE lists_new SET list_name = @list_name, list_type = @list_type, owner_id = @owner_id, expires_on = @expires_on, is_public = @is_public, share_id = @share_id, is_private = @is_private WHERE list_id = @list_id</value>
+  </data>
+  <data name="UpdateListItemById" xml:space="preserve">
+    <value>UPDATE list_items SET list_id = @list_id, list_item_content = @list_item_content, last_modified_by = @last_modified_by, last_modified_on = @last_modified_on, grocery_price =@grocery_price, quantity = @quantity, purchased = @purchased, prayer_count = @prayer_count, url = @url, pro_con_weight = @pro_con_weight, pro_con_type=@pro_con_type WHERE list_item_id = @list_item_id</value>
+  </data>
+  <data name="UpdatePersonById" xml:space="preserve">
+    <value>UPDATE persons SET f_name = @f_name, m_name = @m_name, l_name = @l_name, username = @username, is_guest = @is_guest WHERE person_id = @person_id</value>
+  </data>
+  <data name="SaveGroceryListItem" xml:space="preserve">
+    <value>INSERT INTO list_items (list_id, list_item_content, created_on, deleted, created_by, last_modified_by, grocery_price) VALUES(@list_id, @list_item_content, @created_on, 0, @created_by, @last_modified_on, @last_modified_by, @grocery_price); SELECT list_item_id FROM list_items WHERE list_item_id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="DeleteClaimer" xml:space="preserve">
+    <value>DELETE FROM list_item_claimed_by WHERE person_id = @person_id AND list_item_id = @list_item_id</value>
+  </data>
+  <data name="SaveClaimer" xml:space="preserve">
+    <value>INSERT INTO list_item_claimed_by (person_id, list_item_id) VALUES (@person_id, @list_item_id)</value>
+  </data>
+  <data name="GetListViewersByListId" xml:space="preserve">
+    <value>SELECT person_id FROM list_viewers WHERE list_id = @list_id</value>
+  </data>
+  <data name="SearchPersonByName" xml:space="preserve">
+    <value>SELECT distinct person_id, f_name, l_name FROM persons WHERE f_name LIKE '%@query%' OR l_name LIKE '%@query%'</value>
+  </data>
+  <data name="DeleteEditorByListIdPersonId" xml:space="preserve">
+    <value>DELETE FROM list_editors WHERE list_id = @list_id AND editor_id = @editor_id</value>
+  </data>
+  <data name="DeleteViewerByListIdPersonId" xml:space="preserve">
+    <value>DELETE FROM list_viewers WHERE list_id = @list_id AND person_id = @person_id</value>
+  </data>
+  <data name="GetListEditsByPersonId" xml:space="preserve">
+    <value>SELECT distinct l.* FROM lists_new l JOIN list_editors lv on lv.list_id = l.list_id WHERE (lv.editor_id = @person_id OR l.owner_id = @person_id) AND l.deleted = 0</value>
+  </data>
+  <data name="SaveEditor" xml:space="preserve">
+    <value>INSERT INTO list_editors VALUES (@list_id, @editor_id)</value>
+  </data>
+  <data name="SaveViewer" xml:space="preserve">
+    <value>INSERT INTO list_viewers VALUES (@list_id, @person_id)</value>
+  </data>
+  <data name="GetChangeControlById" xml:space="preserve">
+    <value>SELECT * FROM change_control WHERE change_id = @change_id</value>
+  </data>
+  <data name="MarkChangeControlUsed" xml:space="preserve">
+    <value>UPDATE change_control SET used = 1 WHERE change_id = @change_id</value>
+  </data>
+  <data name="SaveChangeControl" xml:space="preserve">
+    <value>INSERT INTO change_control VALUES(@change_id, 0)</value>
+  </data>
+  <data name="GetPersonIdByEmailAndUsername" xml:space="preserve">
+    <value>SELECT p.person_id 
+FROM persons p 
+JOIN person_contact_information c 
+ON p.person_id = c.person_id
+ WHERE p.username = @username 
+ AND c.email = @email</value>
+  </data>
+  <data name="ReplacePattern" xml:space="preserve">
+    <value>UPDATE person_pattern SET pattern = @pattern WHERE person_id = (SELECT person_id FROM persons WHERE username = @username)</value>
+  </data>
+  <data name="GetPublicLists" xml:space="preserve">
+    <value>SELECT * FROM lists_new WHERE is_public = 1 AND deleted = 0</value>
+  </data>
+  <data name="GetActiveSiteMessages" xml:space="preserve">
+    <value>SELECT * FROM site_messages (nolock) WHERE GETDATE() &gt;= show_from AND GETDATE() &lt;= show_to</value>
+  </data>
+  <data name="GetAverageGroceryPrice" xml:space="preserve">
+    <value>select AVG(i.grocery_price)
+from list_items i (nolock)
+join lists_new l (nolock)
+on l.list_id = i.list_id 
+and l.list_type = 10003
+where i.list_item_content like '%{0}%'</value>
+  </data>
+  <data name="AddToEmailQueue" xml:space="preserve">
+    <value>BEGIN
+IF NOT EXISTS(SELECT 1 
+			  FROM Emails 
+			  WHERE body = @body
+			  AND to_email = @to_email
+			  AND sent = 0) 
+    BEGIN
+	INSERT INTO Emails 
+	VALUES (@to_email, @body, @subject, 0, @createdOn);
+	END
+END</value>
+  </data>
+  <data name="GetQueuedEmails" xml:space="preserve">
+    <value>SELECT * FROM Emails WHERE sent = 0 ORDER BY createdOn ASC</value>
+  </data>
+  <data name="MarkEmailAsSent" xml:space="preserve">
+    <value>UPDATE Emails SET sent = 1 WHERE id = @id</value>
+  </data>
+  <data name="DeleteAverageGroceryListItem" xml:space="preserve">
+    <value>DELETE FROM average_grocery_prices WHERE grocery_item_name = @grocery_item_name</value>
+  </data>
+  <data name="DeleteQuickAddGroceryItems" xml:space="preserve">
+    <value>DELETE FROM quick_add_grocery_item WHERE personid = @person_id AND user_entered = 0</value>
+  </data>
+  <data name="GetAllGroceryItems" xml:space="preserve">
+    <value>SELECT DISTINCT i.list_item_content
+FROM list_items i
+JOIN lists_new l
+ON l.list_id = i.list_id
+AND l.list_type = 10003</value>
+  </data>
+  <data name="GetAllPersonIds" xml:space="preserve">
+    <value>SELECT person_id FROM persons WHERE deleted = 0</value>
+  </data>
+  <data name="GetQuickAddGroceryItems" xml:space="preserve">
+    <value>SELECT * FROM quick_add_grocery_item WHERE personid = @personid AND user_entered = @user_entered</value>
+  </data>
+  <data name="GetSaveAverageGroceryPrice" xml:space="preserve">
+    <value>SELECT TOP 1 average_price FROM average_grocery_prices WHERE grocery_item_name =@grocery_item_name</value>
+  </data>
+  <data name="GetTop10GroceryItems" xml:space="preserve">
+    <value>SELECT TOP 10 i.list_item_content, COUNT(i.list_item_content)
+FROM list_items i 
+JOIN lists_new l
+ON l.list_id = i.list_id
+AND l.list_type = 10003
+WHERE l.owner_id = @person_id
+GROUP BY i.list_item_content 
+ORDER BY COUNT(i.list_item_content) DESC</value>
+  </data>
+  <data name="SaveAverageGroceryListItem" xml:space="preserve">
+    <value>INSERT INTO average_grocery_prices VALUES (@grocery_item_name, @average_price)</value>
+  </data>
+  <data name="SaveQuickAddGroceryItem" xml:space="preserve">
+    <value>INSERT INTO quick_add_grocery_item VALUES (@quick_grocery_item, @person_id, @user_entered, 0); SELECT item_id FROM quick_add_grocery_item WHERE item_id = SCOPE_IDENTITY()</value>
+  </data>
+  <data name="InsertSiteMessage" xml:space="preserve">
+    <value>INSERT INTO site_messages VALUES (@text, @show_from, @show_to, @type)</value>
+  </data>
+  <data name="DeleteListAccessRequest" xml:space="preserve">
+    <value>DELETE FROM list_access_request WHERE id = @id</value>
+  </data>
+  <data name="GetListAccessRequestById" xml:space="preserve">
+    <value>SELECT * FROM list_access_request WHERE id = @id</value>
+  </data>
+  <data name="GetListAccessRequestByListId" xml:space="preserve">
+    <value>SELECT * FROM list_access_request WHERE list_id = @list_id</value>
+  </data>
+  <data name="GetListByShareId" xml:space="preserve">
+    <value>SELECT * FROM lists_new WHERE share_id = @share_id AND deleted = 0 </value>
+  </data>
+  <data name="SaveListAccessRequest" xml:space="preserve">
+    <value>INSERT INTO list_access_request VALUES (@person_id, @list_id, @access_type); SELECT id FROM list_access_request WHERE id = (SELECT SCOPE_IDENTITY());</value>
+  </data>
+  <data name="GetAllLists" xml:space="preserve">
+    <value>SELECT * FROM lists_new WHERE deleted = 0</value>
+  </data>
+  <data name="DeleteExpiredGuestLists" xml:space="preserve">
+    <value>UPDATE lists_new 
+SET deleted = 1 
+WHERE DATEADD(week, 1, created_on) &gt; GETDATE() 
+AND EXISTS (SELECT 1 
+			FROM persons p (NOLOCK)
+			WHERE p.is_guest = 1 
+			AND p.deleted = 0 
+			AND p.person_id = owner_id) 
+AND deleted = 0</value>
+  </data>
+  <data name="NextListsExist" xml:space="preserve">
+    <value>SELECT list_id FROM lists_new WHERE deleted = 0 AND list_id &lt; @PreviousListId ORDER BY list_id DESC</value>
+  </data>
+  <data name="PreviousListsExist" xml:space="preserve">
+    <value>SELECT TOP {0} list_id FROM lists_new WHERE deleted = 0 AND list_id &gt; @PreviousListId ORDER BY list_id DESC</value>
+  </data>
+  <data name="DeleteCommentById" xml:space="preserve">
+    <value>UPDATE comments SET deleted = 1 WHERE comment_id = @comment_id</value>
+  </data>
+  <data name="DeleteAmazonItemById" xml:space="preserve">
+    <value>DELETE FROM amazon_items WHERE item_id = @item_id</value>
+  </data>
+  <data name="GetAmazonItemByName" xml:space="preserve">
+    <value>SELECT * FROM amazon_items WHERE item_name = @item_name</value>
+  </data>
+  <data name="GetAmazonItemsByName" xml:space="preserve">
+    <value>SELECT * FROM amazon_items WHERE item_name LIKE '%{0}%'</value>
+  </data>
+  <data name="UpdateAmazonItemById" xml:space="preserve">
+    <value>UPDATE amazon_items SET item_name = @item_name, item_link = @item_link where item_id = @item_id</value>
+  </data>
+  <data name="InsertAmazonItem" xml:space="preserve">
+    <value>INSERT INTO amazon_items (item_link, item_name) VALUES (@item_link, @item_name)</value>
+  </data>
+  <data name="UndeleteListById" xml:space="preserve">
+    <value>UPDATE lists_new SET deleted = 0 WHERE list_id = @list_id</value>
+  </data>
+  <data name="UndeleteListItemById" xml:space="preserve">
+    <value>UPDATE list_items SET deleted = 0 WHERE list_item_id = @list_item_id</value>
+  </data>
+  <data name="DeleteQuickAddItemById" xml:space="preserve">
+    <value>DELETE FROM quick_add_grocery_item WHERE item_id = @item_id</value>
+  </data>
+  <data name="GetQuickItemById" xml:space="preserve">
+    <value>SELECT * FROM quick_add_grocery_item WHERE item_id = @item_id</value>
+  </data>
+  <data name="UpdateQuickAddItem" xml:space="preserve">
+    <value>UPDATE quick_add_grocery_item SET is_hidden = @is_hidden WHERE item_id = @item_id</value>
+  </data>
+  <data name="AutoPopulateGroceryList" xml:space="preserve">
+    <value>INSERT INTO list_items  
+(list_id, list_item_content, created_on, deleted, created_by, last_modified_on, last_modified_by, grocery_price, quantity, purchased)
+SELECT @list_id as list_id,
+	   li.list_item_content as list_item_content,
+	   @created_on as created_on,
+	   0 as deleted, 
+	   @created_by as created_by, 
+	   @last_modified_on as last_modified_on, 
+	   @last_modified_by as last_modified_by,
+	   MAX(li.grocery_price) as grocery_price, 
+	   1 as quantity,
+	   0 as purchased
+FROM List_items li
+JOIN lists_new l
+ON l.list_id = li.list_id
+AND l.list_type = 10003
+AND l.list_id IN (SELECT TOP 4 list_id l2
+				  FROM lists_new l2 
+				  WHERE l2.owner_id = @owner_id
+				  AND l2.list_type = 10003
+				  ORDER BY l2.list_id DESC)
+WHERE li.deleted = 0
+GROUP BY li.list_item_content</value>
+  </data>
+  <data name="GetIpAddressSalesTaxById" xml:space="preserve">
+    <value>SELECT * FROM sales_tax_ip_address WHERE entry_id = @entry_id</value>
+  </data>
+  <data name="GetIpAddressSalesTaxByIp" xml:space="preserve">
+    <value>SELECT TOP 1 * FROM sales_tax_ip_address WHERE ip_address = @ip_address</value>
+  </data>
+  <data name="GetIpAddressSalesTaxByZipCode" xml:space="preserve">
+    <value>SELECT TOP 1 * FROM sales_tax_ip_address WHERE zip_code = @zip_code</value>
+  </data>
+  <data name="GetIpAddressWithNoSalesTax" xml:space="preserve">
+    <value>SELECT * FROM sales_tax_ip_address WHERE sales_tax IS NULL</value>
+  </data>
+  <data name="GetIpAddressWithSalesTax" xml:space="preserve">
+    <value>SELECT* FROM sales_tax_ip_address WHERE sales_tax IS NOT NULL</value>
+  </data>
+  <data name="SaveIpAddressSalesTax" xml:space="preserve">
+    <value>INSERT INTO sales_tax_ip_address VALUES (@ip_address, @zip_code, @sales_tax); SELECT entry_id FROM sales_tax_ip_address WHERE entry_id = SCOPE_IDENTITY()</value>
+  </data>
+  <data name="UpdateIpAddressSalesTax" xml:space="preserve">
+    <value>UPDATE sales_tax_ip_address SET ip_address = @ip_address, zip_code = @zip_code, sales_tax = @sales_tax WHERE entry_id = @entry_id</value>
+  </data>
+  <data name="GetStateCodeByStateName" xml:space="preserve">
+    <value>SELECT state_code FROM states WHERE state_name = @state_name</value>
+  </data>
+</root>

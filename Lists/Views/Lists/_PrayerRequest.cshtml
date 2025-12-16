@@ -1,0 +1,39 @@
+﻿@model Lists.Models.Data.List
+
+<div class="listTitle defaultText">@Model.Name</div>
+<div class="listOwner defaultText">Owner: @string.Format("{0} {1}", Model.Owner.FirstName, Model.Owner.LastName)</div>
+@Html.Partial("_ShareOnFacebook", Model.ShareId)
+@if (Model.ExpiresOn.HasValue)
+{
+    <div class="listExpiration defaultText">Expires: @Model.ExpiresOn.Value.ToShortDateString()</div>
+}
+
+<div id="prayerRequestItems" class="listItems">
+    @Html.Partial("_PrayerRequestItems", Model.Items)
+</div>
+@if ((Model.Editors.Contains(((Lists.Models.Data.Person)ViewBag.CurrentUser).Id) ||
+    Model.Owner.Id == ((Lists.Models.Data.Person)ViewBag.CurrentUser).Id) && !Model.IsExpired)
+{
+    <hr />
+    <div id="listItemAdd">
+    @Html.Partial("_NewPrayerRequestItem", new Lists.Models.View.NewPrayerRequestItem
+    {
+        ListId = Model.Id
+    })
+</div>
+}
+
+<script type="text/javascript">
+    function handleOnSuccess(data, textStatus, jqXHR) {
+        hideLoader();
+        if (PostSuccess(jqXHR)) {
+            $("#prosAndConsListItems").html(data).promise().done(function () {
+                clearForm("#listItemAdd form");
+                $(".radio").removeClass("icon-radio-checked");
+                $("#Weight").val("");
+            });
+        } else {
+            $("#listItemAdd").html(data);
+        }
+    }
+</script>

@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+@{
+    var user = ViewBag.CurrentUser as Lists.Models.Data.Person;
+}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="@ViewBag.Title" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link href="@Url.Content("~/Content/foundation.css")" rel="stylesheet"/>
+        <link href="@Url.Content("~/Content/normalize.css")" rel="stylesheet"/>        
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet"/>        
+        <link href="@Url.Content("~/Content/jquery.datetimepicker.css")" rel="stylesheet"/>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/fastclick.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/foundation.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/grid-auth.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Lists.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.datetimepicker.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.autocomplete.js")"></script>
+    </head>
+    <body>
+        <script>if (typeof window.JSON === 'undefined') { document.write('<script src="/Scripts/json2.js"><\/script>'); }</script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/history.js")"></script>
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '777747705614895',
+                    xfbml: true,
+                    version: 'v2.1'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        @Html.Partial("_CheckForEmbeddedView")
+        <div class="off-canvas-wrap" data-offcanvas>
+            <div class="inner-wrap">
+                <nav class="tab-bar">
+                    <section class="left-small">
+                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                    </section>
+                    
+                    @if (user != null)
+                    {
+                        <section class="right"><strong>Hello, @user.FirstName</strong>&nbsp;</section>
+                    }
+                    <section class="middle tab-bar-section">
+                        <h1 class="title"><img class="header-logo" src="@Url.Content("~/Images/logo/trans_header_144_144.png")" /></h1>
+                    </section>
+                </nav>
+
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        @if (user == null)
+                        {
+                            <li><label>Welcome!</label></li>
+                            <li><a href="@Url.Action("Index", "Logon")" onclick="showLoader()">Login</a></li>
+                            <li><a href="@Url.Action("Index", "Register")" onclick="showLoader()">Sign Up</a></li>
+                            <li><a href="@Url.Action("ForgotPattern", "Profile")" onclick="showLoader()">Forgot Pattern</a></li>
+                        }
+                        else
+                        {
+                            <li><label>Hello, @user.FirstName</label></li>
+                            if (user.IsGuest)
+                            {
+                                <li><a href="@Url.Action("Index", "Logon")" onclick="showLoader()">Login</a></li>
+                                <li><a href="@Url.Action("Index", "Register")" onclick="showLoader()">Sign Up</a></li>
+                                <li><a href="@Url.Action("ForgotPattern", "Profile")" onclick="showLoader()">Forgot Pattern</a></li>
+                                <li><a href="@Url.Action("Index", "Lists")" onclick="showLoader()">View Lists</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Logout", "Logon")" onclick="showLoader()">Logout</a></li>
+                                <li><a href="@Url.Action("Index", "Lists")" onclick="showLoader()">View Lists</a></li>
+                                <li><a href="@Url.Action("Add", "Lists")" onclick="showLoader()">Add List</a></li>
+                                <li><a href="@Url.Action("Index", "Profile")" onclick="showLoader()">Profile</a></li>
+                            }
+                        }
+                        <li><a href="javascript:window.location.reload(true)">Refresh</a></li>
+                    </ul>
+                </aside>
+
+                <section class="main-section">
+                    <div id="body" class="page">
+                        @if (ViewBag.LoadSiteMessages != null)
+                        {
+                            <div id="siteMessagesContainer">
+                                @Html.Action("Load", "SiteMessages")
+                            </div>
+                            <br />
+                        }
+                        @if (ViewBag.BackLinkText != null)
+                        {
+                            <div class="backLink defaultText" onclick="showLoader();window.location.href='@ViewBag.BackLinkValue'">
+                                &nbsp;<span class="icon-arrow-left2"></span>&nbsp;@ViewBag.BackLinkText
+                            </div>
+                            <br />
+                        }
+
+                        @Html.Partial("_CheckForConnection")
+                        <div id="loadingContainer">
+                            <img src="@Url.Content("~/Images/loading.gif")" />
+                        </div>
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <div class="pageError">@ViewBag.ErrorMessage</div>
+                            <br />
+                        }
+                        @if (ViewBag.SuccessMessage != null)
+                        {
+                            <div class="pageSuccess">@ViewBag.SuccessMessage</div>
+                        }
+                        @RenderBody()
+                    </div>
+                </section>
+
+                <a class="exit-off-canvas"></a>
+
+            </div>
+        </div>
+        <script type="text/javascript">
+                    $(document).foundation();
+        </script>
+    </body>
+</html>
